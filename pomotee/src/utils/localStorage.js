@@ -1,66 +1,70 @@
 // utils/localStorage.js
 
-export function saveCurrentDayPomos(date, pomoArray) {
-  localStorage.setItem(`current_day_pomos_${date}`, JSON.stringify(pomoArray));
+const POMO_MONTH_KEY = "pomo_month";
+
+export function saveCurrentDayPomos(pomoArray) {
+  const today = new Date().toISOString().slice(0, 10);
+  let pomoMonth = loadPomoMonth();
+
+  // Update or add the current day's data
+  const existingDayIndex = pomoMonth.findIndex((day) => day.date === today);
+  if (existingDayIndex > -1) {
+    pomoMonth[existingDayIndex] = { date: today, pomos: pomoArray };
+  } else {
+    pomoMonth = [...pomoMonth, { date: today, pomos: pomoArray }];
+  }
+
+  localStorage.setItem(POMO_MONTH_KEY, JSON.stringify(pomoMonth));
 }
 
-export function loadCurrentDayPomos(date) {
-  const pomoArrayString = localStorage.getItem(`current_day_pomos_${date}`);
-  return pomoArrayString ? JSON.parse(pomoArrayString) : [];
+export function loadCurrentDayPomos() {
+  const today = new Date().toISOString().slice(0, 10);
+  const pomoMonth = loadPomoMonth();
+  const todayData = pomoMonth.find((day) => day.date === today);
+  return todayData ? todayData.pomos : [];
+}
+
+function loadPomoMonth() {
+  const pomoMonthString = localStorage.getItem(POMO_MONTH_KEY);
+  try {
+    return pomoMonthString ? JSON.parse(pomoMonthString) : [];
+  } catch (error) {
+    console.error("Error parsing pomo month data from localStorage:", error);
+    return [];
+  }
 }
 
 export function saveDailyPomoSummary(date, count) {
-  localStorage.setItem(`daily_pomos_summary_${date}`, count.toString());
+  // This function is no longer needed with the new data structure
+  console.warn("saveDailyPomoSummary is deprecated");
 }
 
 export function loadDailyPomoSummary(date) {
-  const countString = localStorage.getItem(`daily_pomos_summary_${date}`);
-  return countString ? parseInt(countString, 10) : 0;
+  // This function is no longer needed with the new data structure
+  console.warn("loadDailyPomoSummary is deprecated");
+  return 0;
 }
 
 export function loadMonthlyPomos(month, year) {
+  const pomoMonth = loadPomoMonth();
   const monthlyPomos = {};
-  for (let i = 1; i <= 31; i++) {
-    const date = `${year}-${month.toString().padStart(2, "0")}-${i
-      .toString()
-      .padStart(2, "0")}`;
-    const count = loadDailyPomoSummary(date);
-    if (count > 0) {
-      monthlyPomos[date] = count;
+
+  pomoMonth.forEach((day) => {
+    const [yearStr, monthStr, dayStr] = day.date.split("-");
+    const dayMonth = parseInt(monthStr, 10);
+    const dayYear = parseInt(yearStr, 10);
+
+    if (dayMonth === month && dayYear === year) {
+      monthlyPomos[day.date] = day.pomos.filter(
+        (pomo) => pomo.completed
+      ).length;
     }
-  }
+  });
+
   return monthlyPomos;
 }
 
 export function cleanupOldPomos() {
-  const now = new Date();
-  const currentMonth = now.getMonth() + 1;
-  const currentYear = now.getFullYear();
-  const previousMonth = currentMonth === 1 ? 12 : currentMonth - 1;
-  const previousYear = currentMonth === 1 ? currentYear - 1 : currentYear;
-
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (
-      key.startsWith("current_day_pomos_") ||
-      key.startsWith("daily_pomos_summary_")
-    ) {
-      const dateString = key.substring(key.lastIndexOf("_") + 1);
-      const [year, month] = dateString.split("-").map(Number);
-
-      if (
-        year < previousYear ||
-        (year === previousYear && month < previousMonth)
-      ) {
-        localStorage.removeItem(key);
-        i--; // Adjust index after removing
-      } else if (
-        year < currentYear ||
-        (year === currentYear && month < currentMonth - 1)
-      ) {
-        localStorage.removeItem(key);
-        i--; // Adjust index after removing
-      }
-    }
-  }
+  // This function is no longer needed with the new data structure
+  console.warn("cleanupOldPomos is deprecated");
 }

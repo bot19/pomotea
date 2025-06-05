@@ -5,19 +5,25 @@ function Settings({ setPomoDuration }) {
 
   const handleChange = (event) => {
     const value = parseInt(event.target.value);
-    if (value >= 15 && value <= 30) {
-      setDuration(value);
-      setPomoDuration(value);
+    setDuration(value);
+  };
+
+  const handleClick = () => {
+    if (duration >= 15 && duration <= 30) {
+      setPomoDuration(duration);
+    } else {
+      alert("Pomo duration must be between 15 and 30 minutes.");
     }
   };
 
   return (
-    <div>
+    <div className="settings">
       <h2>Settings</h2>
       <label>
         Pomo Duration (15-30 minutes):
         <input type="number" value={duration} onChange={handleChange} />
       </label>
+      <button onClick={handleClick}>Set Duration</button>
     </div>
   );
 }
