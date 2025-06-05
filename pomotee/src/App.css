@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+  font-family: sans-serif;
+  background-color: var(--pomo-inactive-color);
+  transition: background-color 0.3s ease;
+}
+
+.App.pomo-active {
+  background-color: var(--pomo-active-color);
+}
+
+h1 {
+  color: #333;
+}
+
+:root {
+  --pomo-active-color: rgb(255, 162, 118);
+  --pomo-inactive-color: rgb(175, 175, 175);
+}
