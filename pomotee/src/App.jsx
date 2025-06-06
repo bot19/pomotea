@@ -96,7 +96,6 @@ function App() {
   return (
     <div className={`App ${timerRunning ? "pomo-active" : ""}`}>
       <h1>Pomotea</h1>
-      <Settings setPomoDuration={setNewPomoDuration} />
       <Timer
         currentPomo={currentPomo}
         timeRemaining={timeRemaining}
@@ -108,6 +107,7 @@ function App() {
         completePomo={completePomo}
       />
       <PomoTracker currentDayPomos={pomosDone.length} />
+      <Settings setPomoDuration={setNewPomoDuration} />
     </div>
   );
 }
@@ -126,6 +126,7 @@ export default App;
  * TEST - PASS: timer saving to storage timer progress
  * TEST - PASS: pomo on done, will rollover in 3s
  * TEST - PASS: pomo on done to move from current pomo to done
+ * TEST - PASS: on page reload, current pomo progress is restored
  *
  * TEST - FAIL: only bind 1x setInterval in strictMode double execute
  *

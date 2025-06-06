@@ -19,7 +19,6 @@ function Settings({ setPomoDuration }) {
 
   return (
     <div className="settings">
-      <h2>Settings</h2>
       <label>
         Pomo Duration (15-30 minutes):
         <input type="number" value={duration} onChange={handleChange} />

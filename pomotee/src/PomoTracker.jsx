@@ -20,11 +20,12 @@ function PomoTracker({ currentDayPomos }) {
   // console.log("PomoTracker, monthlyPomos", monthlyPomos);
 
   return (
-    <div>
-      <h2>Pomo Tracker</h2>
-      <p>Pomos Completed Today: {currentDayPomos}</p>
-      <h3>Pomos This Month</h3>
-      (Coming soon...)
+    <footer>
+      <p>
+        Pomos Completed Today: <strong>{currentDayPomos}</strong>
+      </p>
+      {/* <h3>Pomos This Month</h3>
+      (Coming soon...) */}
       {/* <ul>
         {Object.entries(monthlyPomos).map(([date, count]) => (
           <li key={date}>
@@ -32,7 +33,8 @@ function PomoTracker({ currentDayPomos }) {
           </li>
         ))}
       </ul> */}
-    </div>
+      <div style={{ paddingBottom: "20px" }}>ver. 0.3</div>
+    </footer>
   );
 }
 

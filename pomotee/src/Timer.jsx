@@ -83,16 +83,15 @@ function Timer({
   }, [autoNextPomo, startTimer]);
 
   return (
-    <div>
-      <h2>Timer</h2>
-      <div>
+    <main>
+      <h2>
         <span>{minutes.toString().padStart(2, "0")}</span>:
         <span>{seconds.toString().padStart(2, "0")}</span>
-      </div>
+      </h2>
       <button onClick={timerRunning ? pauseTimer : startTimer}>
         {timerRunning ? "Pause" : "Start"}
       </button>
-    </div>
+    </main>
   );
 }
 
