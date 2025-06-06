@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { CONFIG } from "./config";
 
 function Settings({ setPomoDuration }) {
-  // TODO: use a const to match
   const [duration, setDuration] = useState(CONFIG.defaults.duration);
 
   const handleChange = (event) => {

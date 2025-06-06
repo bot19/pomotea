@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { loadCurrentDayPomos, saveCurrentDayPomos } from "./utils/localStorage";
+import { saveCurrentPomo } from "./utils/localStorage";
 
 function Timer({
-  currentDayPomos,
+  currentPomo,
   timeRemaining,
   timerRunning,
   startTimer,
   pauseTimer, // memo
   setTimeRemaining, // stable
-  setCurrentDayPomos, // stable
   pomoDuration,
   completePomo, // memo
 }) {
@@ -35,14 +34,17 @@ function Timer({
         setTimeRemaining((prevTime) => {
           if (prevTime > 0) {
             const newTimeRemaining = prevTime - 1;
-            const updatedPomos = [...currentDayPomos];
-            updatedPomos[updatedPomos.length - 1].progress = newTimeRemaining;
+
+            // save to storage to persist state
+            const newCurrentPomo = {
+              ...currentPomo,
+              progress: newTimeRemaining,
+            };
             console.log(
               "Timer, useEffect timer countdown - stage storage",
-              updatedPomos
+              newCurrentPomo
             );
-            setCurrentDayPomos(updatedPomos);
-            saveCurrentDayPomos(updatedPomos);
+            saveCurrentPomo(newCurrentPomo);
 
             return newTimeRemaining;
           } else {
@@ -63,11 +65,10 @@ function Timer({
   }, [
     timerRunning,
     setTimeRemaining,
-    setCurrentDayPomos,
     pomoDuration,
     pauseTimer,
     completePomo,
-    currentDayPomos,
+    currentPomo,
   ]);
 
   // need to pomo roll over, X sec warning

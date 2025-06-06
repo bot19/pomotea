@@ -1,7 +1,7 @@
 // utils/localStorage.js
 
-const POMO_MONTH_KEY = "pomo_month";
-const POMO_CONFIG = "pomo_config"; // TODO: persist pomo duration
+const POMO_DATA_KEY = "pomo_data";
+// const POMO_CONFIG = "pomo_config";
 
 const getLocalDate = () => {
   const date = new Date();
@@ -12,55 +12,67 @@ const getLocalDate = () => {
   )}-${String(date.getDate()).padStart(2, "0")}`;
 };
 
-export function saveCurrentDayPomos(pomoArray) {
-  const today = getLocalDate();
-  let pomoMonth = loadPomoMonth();
+// get state in storage or make it.
+function loadPomoData() {
+  const pomoMonthString = localStorage.getItem(POMO_DATA_KEY);
 
-  // Update or add the current day's data
-  const existingDayIndex = pomoMonth.findIndex((day) => day.date === today);
-  if (existingDayIndex > -1) {
-    pomoMonth[existingDayIndex] = { date: today, pomos: pomoArray };
-  } else {
-    pomoMonth = [...pomoMonth, { date: today, pomos: pomoArray }];
-  }
-
-  localStorage.setItem(POMO_MONTH_KEY, JSON.stringify(pomoMonth));
-}
-
-export function loadCurrentDayPomos() {
-  const today = getLocalDate();
-  const pomoMonth = loadPomoMonth();
-  const todayData = pomoMonth.find((day) => day.date === today);
-  return todayData ? todayData.pomos : [];
-}
-
-function loadPomoMonth() {
-  const pomoMonthString = localStorage.getItem(POMO_MONTH_KEY);
   try {
-    return pomoMonthString ? JSON.parse(pomoMonthString) : [];
+    const pomoData = pomoMonthString
+      ? JSON.parse(pomoMonthString)
+      : [
+          {
+            date: getLocalDate(),
+            current: null,
+            done: [],
+          },
+        ];
+
+    localStorage.setItem(POMO_DATA_KEY, JSON.stringify(pomoData));
+
+    return pomoData;
   } catch (error) {
     console.error("Error parsing pomo month data from localStorage:", error);
     return [];
   }
 }
 
+export function saveCurrentPomo(currentPomoObj) {
+  const today = getLocalDate(); // '2025-06-05'
+  let pomoData = loadPomoData(); // [{...}, ...]
+
+  const todayPomo = pomoData.find((dayObj) => dayObj.date === today);
+  const todayIndex = pomoData.findIndex((dayObj) => dayObj.date === today);
+  pomoData[todayIndex] = { ...todayPomo, current: currentPomoObj };
+
+  localStorage.setItem(POMO_DATA_KEY, JSON.stringify(pomoData));
+}
+
+export function saveDonePomos(pomosDoneArray) {
+  const today = getLocalDate(); // '2025-06-05'
+  let pomoData = loadPomoData(); // [{...}, ...]
+
+  const todayPomo = pomoData.find((dayObj) => dayObj.date === today);
+  const todayIndex = pomoData.findIndex((dayObj) => dayObj.date === today);
+  pomoData[todayIndex] = { ...todayPomo, done: pomosDoneArray };
+
+  localStorage.setItem(POMO_DATA_KEY, JSON.stringify(pomoData));
+}
+
+export function loadCurrentDay() {
+  const today = getLocalDate();
+  const pomoMonth = loadPomoData();
+  const todayData = pomoMonth.find((day) => day.date === today);
+  return todayData ? todayData : null;
+}
+
 export function loadMonthlyPomos(month, year) {
-  const pomoMonth = loadPomoMonth();
+  const pomoMonth = loadPomoData();
   const monthlyPomos = {};
 
   pomoMonth.forEach((day) => {
     const [yearStr, monthStr, dayStr] = day.date.split("-");
     const dayMonth = parseInt(monthStr, 10);
     const dayYear = parseInt(yearStr, 10);
-
-    console.log(
-      "test",
-      dayMonth,
-      dayYear,
-      yearStr,
-      day.date,
-      day.date.split("-")
-    );
 
     if (dayMonth === month && dayYear === year) {
       monthlyPomos[day.date] = day.pomos.filter(

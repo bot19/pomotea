@@ -2,38 +2,41 @@ import React, { useState, useEffect } from "react";
 import Timer from "./Timer";
 import PomoTracker from "./PomoTracker";
 import Settings from "./Settings";
-import { loadCurrentDayPomos, saveCurrentDayPomos } from "./utils/localStorage";
+import {
+  loadCurrentDay,
+  saveCurrentPomo,
+  saveDonePomos,
+} from "./utils/localStorage";
 import "./App.css";
 import { CONFIG } from "./config";
 
 function App() {
-  const dayPomos = loadCurrentDayPomos(); // get data from storage
-  console.log("App, currentDayPomos", dayPomos);
-
   const [pomoDuration, setPomoDuration] = useState(CONFIG.defaults.duration);
-  const [currentDayPomos, setCurrentDayPomos] = useState(dayPomos);
+  const [currentPomo, setCurrentPomo] = useState(null);
+  const [pomosDone, setPomosDone] = useState([]);
   const [timerRunning, setTimerRunning] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(
-    dayPomos.length && dayPomos[dayPomos.length - 1].progress
-      ? dayPomos[dayPomos.length - 1].progress
-      : pomoDuration * 60
-  );
+  const [timeRemaining, setTimeRemaining] = useState(pomoDuration * 60);
+
+  // on app init, update state with storage values
+  useEffect(() => {
+    const storageDayData = loadCurrentDay();
+    console.log("App, currentDayPomos", storageDayData);
+
+    if (storageDayData.current) {
+      setCurrentPomo(storageDayData.current);
+      setTimeRemaining(storageDayData.current.progress);
+    }
+    if (storageDayData.done.length > 0) setPomosDone(storageDayData.done);
+  }, []);
 
   // pomoDuration setting changed, update timeRemaining if timer stopped
   const setNewPomoDuration = (newDuration) => {
     setPomoDuration(newDuration);
 
-    // don't reset timeRemaining if pomo in progress
-    const pomoInProgress =
-      currentDayPomos.length > 0 &&
-      !currentDayPomos[currentDayPomos.length - 1].completed;
+    console.log("App, useEffect, set pomoDuration", timerRunning, currentPomo);
 
-    console.log(
-      "App, useEffect, set pomoDuration",
-      timerRunning,
-      pomoInProgress
-    );
-    if (!timerRunning && !pomoInProgress) {
+    // don't reset timeRemaining if pomo in progress
+    if (!timerRunning && !currentPomo) {
       setTimeRemaining(newDuration * 60);
     }
   };
@@ -43,10 +46,7 @@ function App() {
     setTimerRunning(true);
 
     // if no pomos yet, or last pomo is completed
-    if (
-      currentDayPomos.length === 0 ||
-      currentDayPomos[currentDayPomos.length - 1].completed
-    ) {
+    if (!currentPomo) {
       console.log("App, startTimer");
 
       // Start a new pomo
@@ -55,49 +55,42 @@ function App() {
         completed: false,
         progress: pomoDuration * 60,
       };
-      const newCurrentDadPomos = [...currentDayPomos, newPomo];
 
-      setCurrentDayPomos(newCurrentDadPomos);
-      saveCurrentDayPomos(newCurrentDadPomos); // save to storage
-    } else {
-      // resume pomo
+      setCurrentPomo(newPomo);
+      saveCurrentPomo(newPomo);
     }
   };
 
-  // TODO: make these efficient, memoize
   const pauseTimer = () => {
-    const lastPomoIndex = currentDayPomos.length - 1;
+    // can only pause if timer running = has current pomo
 
-    if (
-      currentDayPomos.length > 0 &&
-      !currentDayPomos[lastPomoIndex].completed
-    ) {
-      // Pause the current pomo
-      setTimerRunning(false);
+    // Pause the current pomo
+    setTimerRunning(false);
 
-      const updatedPomos = [...currentDayPomos];
-      updatedPomos[lastPomoIndex].progress = timeRemaining;
-      console.log("App, pauseTimer", updatedPomos);
-      setCurrentDayPomos(updatedPomos);
-      saveCurrentDayPomos(updatedPomos);
-    }
+    const newPomo = {
+      ...currentPomo,
+      progress: timeRemaining,
+    };
+
+    console.log("App, pauseTimer", newPomo);
+    setCurrentPomo(newPomo);
+    saveCurrentPomo(newPomo);
   };
 
-  // TODO: always occurs with pauseTimer, can make more efficient
   const completePomo = () => {
-    const lastPomoIndex = currentDayPomos.length - 1;
+    const donePomo = {
+      ...currentPomo, // really just the startTime
+      completed: true,
+      progress: pomoDuration * 60,
+    };
 
-    if (
-      currentDayPomos.length > 0 &&
-      !currentDayPomos[lastPomoIndex].completed
-    ) {
-      // Complete the current pomo
-      const updatedPomos = [...currentDayPomos];
-      updatedPomos[lastPomoIndex].completed = true;
-      updatedPomos[lastPomoIndex].progress = pomoDuration * 60;
-      saveCurrentDayPomos(updatedPomos);
-      setCurrentDayPomos(updatedPomos);
-    }
+    console.log("App, completePomo", donePomo);
+    setCurrentPomo(null);
+    setPomosDone((prevPomosDone) => {
+      const pomosDone = [...prevPomosDone, donePomo];
+      saveDonePomos(pomosDone);
+      return pomosDone;
+    });
   };
 
   return (
@@ -105,19 +98,36 @@ function App() {
       <h1>Pomotea</h1>
       <Settings setPomoDuration={setNewPomoDuration} />
       <Timer
-        currentDayPomos={currentDayPomos}
+        currentPomo={currentPomo}
         timeRemaining={timeRemaining}
         timerRunning={timerRunning}
         startTimer={startTimer}
         pauseTimer={pauseTimer}
         setTimeRemaining={setTimeRemaining}
-        setCurrentDayPomos={setCurrentDayPomos}
         pomoDuration={pomoDuration}
         completePomo={completePomo}
       />
-      <PomoTracker currentDayPomos={currentDayPomos} />
+      <PomoTracker currentDayPomos={pomosDone.length} />
     </div>
   );
 }
 
 export default App;
+
+/**
+ * TODO:
+ * improve UI
+ * optimise timer functions passed in
+ * debounce save to storage every 5s?
+ * save pomo config to storage to persist
+ *
+ * TEST - PASS: can set new duration
+ * TEST - PASS: start + pause timer
+ * TEST - PASS: timer saving to storage timer progress
+ * TEST - PASS: pomo on done, will rollover in 3s
+ * TEST - PASS: pomo on done to move from current pomo to done
+ *
+ * TEST - FAIL: only bind 1x setInterval in strictMode double execute
+ *
+ * TEST - RESU: ...
+ */

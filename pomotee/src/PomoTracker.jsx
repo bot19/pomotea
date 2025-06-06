@@ -2,38 +2,36 @@ import React, { useEffect, useState } from "react";
 import { loadMonthlyPomos } from "./utils/localStorage";
 
 function PomoTracker({ currentDayPomos }) {
-  const completedPomos = currentDayPomos.filter(
-    (pomo) => pomo.completed
-  ).length;
-  const [monthlyPomos, setMonthlyPomos] = useState({});
+  // const [monthlyPomos, setMonthlyPomos] = useState({});
 
-  useEffect(() => {
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
+  // useEffect(() => {
+  //   const today = new Date();
+  //   const month = today.getMonth() + 1;
+  //   const year = today.getFullYear();
 
-    const fetchMonthlyPomos = async () => {
-      const monthlyData = await loadMonthlyPomos(month, year);
-      setMonthlyPomos(monthlyData);
-    };
+  //   const fetchMonthlyPomos = async () => {
+  //     const monthlyData = await loadMonthlyPomos(month, year);
+  //     setMonthlyPomos(monthlyData);
+  //   };
 
-    fetchMonthlyPomos();
-  }, []);
+  //   fetchMonthlyPomos();
+  // }, []);
 
-  console.log("PomoTracker, monthlyPomos", monthlyPomos);
+  // console.log("PomoTracker, monthlyPomos", monthlyPomos);
 
   return (
     <div>
       <h2>Pomo Tracker</h2>
-      <p>Pomos Completed Today: {completedPomos}</p>
+      <p>Pomos Completed Today: {currentDayPomos}</p>
       <h3>Pomos This Month</h3>
-      <ul>
+      (Coming soon...)
+      {/* <ul>
         {Object.entries(monthlyPomos).map(([date, count]) => (
           <li key={date}>
             {date}: {count}
           </li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 }
