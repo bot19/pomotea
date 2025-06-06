@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { loadDailyPomoSummary, loadMonthlyPomos } from "./utils/localStorage";
+import { loadMonthlyPomos } from "./utils/localStorage";
 
 function PomoTracker({ currentDayPomos }) {
   const completedPomos = currentDayPomos.filter(
@@ -19,6 +19,8 @@ function PomoTracker({ currentDayPomos }) {
 
     fetchMonthlyPomos();
   }, []);
+
+  console.log("PomoTracker, monthlyPomos", monthlyPomos);
 
   return (
     <div>

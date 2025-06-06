@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
+import { loadCurrentDayPomos, saveCurrentDayPomos } from "./utils/localStorage";
 
 function Timer({
+  currentDayPomos,
   timeRemaining,
   timerRunning,
   startTimer,
-  pauseTimer,
-  setTimeRemaining,
+  pauseTimer, // memo
+  setTimeRemaining, // stable
+  setCurrentDayPomos, // stable
   pomoDuration,
-  completePomo,
+  completePomo, // memo
 }) {
   const [minutes, setMinutes] = useState(Math.floor(timeRemaining / 60));
   const [seconds, setSeconds] = useState(timeRemaining % 60);
+  const [autoNextPomo, setAutoNextPomo] = useState(false);
 
+  // reflect timeRemaining as min/sec
   useEffect(() => {
+    console.log(
+      "Timer, timeRemaining changed, update M:S Timer",
+      timeRemaining
+    );
     setMinutes(Math.floor(timeRemaining / 60));
     setSeconds(timeRemaining % 60);
   }, [timeRemaining]);
 
+  // as timer running, descrease pomo duration
   useEffect(() => {
     let intervalId;
 
@@ -24,14 +34,25 @@ function Timer({
       intervalId = setInterval(() => {
         setTimeRemaining((prevTime) => {
           if (prevTime > 0) {
-            return prevTime - 1;
+            const newTimeRemaining = prevTime - 1;
+            const updatedPomos = [...currentDayPomos];
+            updatedPomos[updatedPomos.length - 1].progress = newTimeRemaining;
+            console.log(
+              "Timer, useEffect timer countdown - stage storage",
+              updatedPomos
+            );
+            setCurrentDayPomos(updatedPomos);
+            saveCurrentDayPomos(updatedPomos);
+
+            return newTimeRemaining;
           } else {
             // Timer has reached 0
             clearInterval(intervalId);
             pauseTimer();
             completePomo();
-            // Restart the timer and increment pomo count
-            setTimeRemaining(pomoDuration * 60);
+
+            setAutoNextPomo(true);
+            // reset timeRemaining
             return pomoDuration * 60;
           }
         });
@@ -39,7 +60,26 @@ function Timer({
     }
 
     return () => clearInterval(intervalId);
-  }, [timerRunning, setTimeRemaining, pomoDuration, pauseTimer, completePomo]);
+  }, [
+    timerRunning,
+    setTimeRemaining,
+    setCurrentDayPomos,
+    pomoDuration,
+    pauseTimer,
+    completePomo,
+    currentDayPomos,
+  ]);
+
+  // need to pomo roll over, X sec warning
+  useEffect(() => {
+    if (autoNextPomo) {
+      setTimeout(() => {
+        console.log("Timer, autoNextPomo in 3s", autoNextPomo);
+        startTimer();
+        setAutoNextPomo(false);
+      }, 3000);
+    }
+  }, [autoNextPomo, startTimer]);
 
   return (
     <div>

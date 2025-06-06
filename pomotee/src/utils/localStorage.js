@@ -1,9 +1,19 @@
 // utils/localStorage.js
 
 const POMO_MONTH_KEY = "pomo_month";
+const POMO_CONFIG = "pomo_config"; // TODO: persist pomo duration
+
+const getLocalDate = () => {
+  const date = new Date();
+  // e.g., '2025-06-05'
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(date.getDate()).padStart(2, "0")}`;
+};
 
 export function saveCurrentDayPomos(pomoArray) {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getLocalDate();
   let pomoMonth = loadPomoMonth();
 
   // Update or add the current day's data
@@ -18,7 +28,7 @@ export function saveCurrentDayPomos(pomoArray) {
 }
 
 export function loadCurrentDayPomos() {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getLocalDate();
   const pomoMonth = loadPomoMonth();
   const todayData = pomoMonth.find((day) => day.date === today);
   return todayData ? todayData.pomos : [];
@@ -34,17 +44,6 @@ function loadPomoMonth() {
   }
 }
 
-export function saveDailyPomoSummary(date, count) {
-  // This function is no longer needed with the new data structure
-  console.warn("saveDailyPomoSummary is deprecated");
-}
-
-export function loadDailyPomoSummary(date) {
-  // This function is no longer needed with the new data structure
-  console.warn("loadDailyPomoSummary is deprecated");
-  return 0;
-}
-
 export function loadMonthlyPomos(month, year) {
   const pomoMonth = loadPomoMonth();
   const monthlyPomos = {};
@@ -54,6 +53,15 @@ export function loadMonthlyPomos(month, year) {
     const dayMonth = parseInt(monthStr, 10);
     const dayYear = parseInt(yearStr, 10);
 
+    console.log(
+      "test",
+      dayMonth,
+      dayYear,
+      yearStr,
+      day.date,
+      day.date.split("-")
+    );
+
     if (dayMonth === month && dayYear === year) {
       monthlyPomos[day.date] = day.pomos.filter(
         (pomo) => pomo.completed
@@ -62,9 +70,4 @@ export function loadMonthlyPomos(month, year) {
   });
 
   return monthlyPomos;
-}
-
-export function cleanupOldPomos() {
-  // This function is no longer needed with the new data structure
-  console.warn("cleanupOldPomos is deprecated");
 }
