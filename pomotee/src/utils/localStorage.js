@@ -12,22 +12,27 @@ const getLocalDate = () => {
   )}-${String(date.getDate()).padStart(2, "0")}`;
 };
 
-// get state in storage or make it.
-function loadPomoData() {
-  const pomoMonthString = localStorage.getItem(POMO_DATA_KEY);
+// check to create today data object whether no pomoData or exists
+const createDayData = (pomoMonthString) => {
+  const today = getLocalDate();
 
   try {
+    // ensure we have pomoData one way or another
     const pomoData = pomoMonthString
       ? JSON.parse(pomoMonthString)
       : [
           {
-            date: getLocalDate(),
+            date: today,
             current: null,
             done: [],
           },
         ];
 
-    localStorage.setItem(POMO_DATA_KEY, JSON.stringify(pomoData));
+    // check and ensure today's data exists
+    const todayData = pomoData.find((dayObj) => dayObj.date === today);
+    if (!todayData) {
+      pomoData.push({ date: today, current: null, done: [] });
+    }
 
     return pomoData;
   } catch (error) {
@@ -36,6 +41,19 @@ function loadPomoData() {
   }
 }
 
+// get state in storage or make it.
+function loadPomoData() {
+  const pomoMonthString = localStorage.getItem(POMO_DATA_KEY);
+
+  const pomoData = createDayData(pomoMonthString);
+
+  // set updated pomoData with today to storage
+  localStorage.setItem(POMO_DATA_KEY, JSON.stringify(pomoData));
+
+  return pomoData;
+}
+
+// today pomo data will exist
 export function saveCurrentPomo(currentPomoObj) {
   const today = getLocalDate(); // '2025-06-05'
   let pomoData = loadPomoData(); // [{...}, ...]
@@ -47,6 +65,7 @@ export function saveCurrentPomo(currentPomoObj) {
   localStorage.setItem(POMO_DATA_KEY, JSON.stringify(pomoData));
 }
 
+// today pomo data will exist
 export function saveDonePomos(pomosDoneArray) {
   const today = getLocalDate(); // '2025-06-05'
   let pomoData = loadPomoData(); // [{...}, ...]
