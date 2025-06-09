@@ -38,7 +38,7 @@ function Timer({
             // save to storage to persist state
             const newCurrentPomo = {
               ...currentPomo,
-              progress: newTimeRemaining,
+              timeLeft: newTimeRemaining,
             };
             console.log(
               "Timer, useEffect timer countdown - stage storage",

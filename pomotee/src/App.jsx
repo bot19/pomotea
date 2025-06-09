@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Timer from "./Timer";
 import PomoTracker from "./PomoTracker";
 import Settings from "./Settings";
@@ -24,13 +24,12 @@ function App() {
 
     if (storageDayData.current) {
       setCurrentPomo(storageDayData.current);
-      setTimeRemaining(storageDayData.current.progress);
+      setTimeRemaining(storageDayData.current.timeLeft);
     }
     if (storageDayData.done.length > 0) setPomosDone(storageDayData.done);
   }, []);
 
-  // pomoDuration setting changed, update timeRemaining if timer stopped
-  const setNewPomoDuration = (newDuration) => {
+  const setNewPomoDuration = useCallback((newDuration) => {
     setPomoDuration(newDuration);
 
     console.log("App, useEffect, set pomoDuration", timerRunning, currentPomo);
@@ -39,10 +38,9 @@ function App() {
     if (!timerRunning && !currentPomo) {
       setTimeRemaining(newDuration * 60);
     }
-  };
+  }, [timerRunning, currentPomo]);
 
-  // start new pomo or RESUME
-  const startTimer = () => {
+  const startTimer = useCallback(() => {
     setTimerRunning(true);
 
     // if no pomos yet, or last pomo is completed
@@ -53,35 +51,33 @@ function App() {
       const newPomo = {
         startTime: new Date().toISOString(), // UTC
         completed: false,
-        progress: pomoDuration * 60,
+        timeLeft: pomoDuration * 60,
       };
 
       setCurrentPomo(newPomo);
       saveCurrentPomo(newPomo);
     }
-  };
+  }, [currentPomo, pomoDuration]);
 
-  const pauseTimer = () => {
+  const pauseTimer = useCallback(() => {
     // can only pause if timer running = has current pomo
-
-    // Pause the current pomo
     setTimerRunning(false);
 
     const newPomo = {
       ...currentPomo,
-      progress: timeRemaining,
+      timeLeft: timeRemaining,
     };
 
     console.log("App, pauseTimer", newPomo);
     setCurrentPomo(newPomo);
     saveCurrentPomo(newPomo);
-  };
+  }, [currentPomo, timeRemaining]);
 
-  const completePomo = () => {
+  const completePomo = useCallback(() => {
     const donePomo = {
       ...currentPomo, // really just the startTime
       completed: true,
-      progress: pomoDuration * 60,
+      timeLeft: 0,
     };
 
     console.log("App, completePomo", donePomo);
@@ -91,7 +87,7 @@ function App() {
       saveDonePomos(pomosDone);
       return pomosDone;
     });
-  };
+  }, [currentPomo, pomoDuration]);
 
   return (
     <div className={`App ${timerRunning ? "pomo-active" : ""}`}>
@@ -120,13 +116,17 @@ export default App;
  * optimise timer functions passed in
  * debounce save to storage every 5s?
  * save pomo config to storage to persist
+ * play a sound on pomo finish
+ * make app super efficient
+ * mobile app blur, check pomo, add potential pomos 
+ * save pomo started status so on refresh can resume timer
  *
  * TEST - PASS: can set new duration
  * TEST - PASS: start + pause timer
- * TEST - PASS: timer saving to storage timer progress
+ * TEST - PASS: timer saving to storage timer timeLeft
  * TEST - PASS: pomo on done, will rollover in 3s
  * TEST - PASS: pomo on done to move from current pomo to done
- * TEST - PASS: on page reload, current pomo progress is restored
+ * TEST - PASS: on page reload, current pomo timeLeft is restored
  *
  * TEST - FAIL: only bind 1x setInterval in strictMode double execute
  *
