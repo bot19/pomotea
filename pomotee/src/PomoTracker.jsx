@@ -21,9 +21,9 @@ function PomoTracker({ currentDayPomos }) {
 
   return (
     <footer>
-      <p>
+      <section>
         Pomos Completed Today: <strong>{currentDayPomos}</strong>
-      </p>
+      </section>
       {/* <h3>Pomos This Month</h3>
       (Coming soon...) */}
       {/* <ul>
@@ -33,7 +33,7 @@ function PomoTracker({ currentDayPomos }) {
           </li>
         ))}
       </ul> */}
-      <div style={{ paddingBottom: "20px" }}>ver. 0.3</div>
+      <section>ver. 0.4</section>
     </footer>
   );
 }

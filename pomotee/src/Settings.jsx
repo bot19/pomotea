@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { CONFIG } from "./config";
 
 function Settings({ setPomoDuration }) {
+  const [open, setOpen] = useState(false)
   const [duration, setDuration] = useState(CONFIG.defaults.duration);
 
   const handleChange = (event) => {
@@ -10,21 +11,28 @@ function Settings({ setPomoDuration }) {
   };
 
   const handleClick = () => {
-    if (duration >= 1 && duration <= 30) {
+    if (duration >= 15 && duration <= 30) {
       setPomoDuration(duration);
+      setOpen(false);
     } else {
       alert("Pomo duration must be between 15 and 30 minutes.");
     }
   };
 
   return (
-    <div className="settings">
-      <label>
+    <section className="settings">
+      {open ? (
+        <>
+        <label>
         Pomo Duration (15-30 minutes):
         <input type="number" value={duration} onChange={handleChange} />
       </label>
       <button onClick={handleClick}>Set Duration</button>
-    </div>
+        </>
+      ) : (
+        <button onClick={() => setOpen(true)}>Settings</button>
+      )}
+    </section>
   );
 }
 
