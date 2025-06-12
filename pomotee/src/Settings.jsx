@@ -20,11 +20,11 @@ function Settings({ setPomoDuration }) {
   };
 
   return (
-    <section className="settings">
+    <section className={`settings ${open ? "is-open" : ""}`}>
       {open ? (
         <>
         <label>
-        Pomo Duration (15-30 minutes):
+        Pomo Duration (15-30 minutes){" "}
         <input type="number" value={duration} onChange={handleChange} />
       </label>
       <button onClick={handleClick}>Set Duration</button>

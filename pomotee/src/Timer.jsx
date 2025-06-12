@@ -83,7 +83,7 @@ function Timer({
   }, [autoNextPomo, startTimer]);
 
   return (
-    <main>
+    <main className="spacing-md-bottom">
       <h2>
         <span>{minutes.toString().padStart(2, "0")}</span>:
         <span>{seconds.toString().padStart(2, "0")}</span>

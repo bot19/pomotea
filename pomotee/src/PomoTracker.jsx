@@ -20,7 +20,7 @@ function PomoTracker({ currentDayPomos }) {
   // console.log("PomoTracker, monthlyPomos", monthlyPomos);
 
   return (
-    <footer>
+    <section className="stats spacing-md-bottom">
       <section>
         Pomos Completed Today: <strong>{currentDayPomos}</strong>
       </section>
@@ -33,8 +33,7 @@ function PomoTracker({ currentDayPomos }) {
           </li>
         ))}
       </ul> */}
-      <section>ver. 0.4</section>
-    </footer>
+    </section>
   );
 }
 
