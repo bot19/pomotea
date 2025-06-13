@@ -84,8 +84,9 @@ function Timer({
 
   return (
     <main className="spacing-md-bottom">
-      <h2>
-        <span>{minutes.toString().padStart(2, "0")}</span>:
+      <h2 className="font-mono">
+        <span>{minutes.toString().padStart(2, "0")}</span>
+        <span className="timer-colon">:</span>
         <span>{seconds.toString().padStart(2, "0")}</span>
       </h2>
       <button onClick={timerRunning ? pauseTimer : startTimer}>
