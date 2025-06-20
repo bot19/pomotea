@@ -104,6 +104,7 @@ The app now tracks real elapsed time using `startTime` and `currentTime` timesta
 - **Background monitoring**: `updateCurrentPomoTime()` updates timestamps in storage
 - **Automatic completion**: Pomodoros complete automatically when real time exceeds duration
 - **Clean separation**: Timer component handles UI only, App component handles all timer logic
+- **Centralized state**: All timer-related state (including autoNextPomo) managed in App component
 
 ## Performance Optimizations
 
@@ -112,3 +113,5 @@ The app now tracks real elapsed time using `startTime` and `currentTime` timesta
 - ✅ **Efficient storage**: Heavy operations only every 10 seconds
 - ✅ **Minimal re-renders**: Uses refs to avoid unnecessary effect re-runs
 - ✅ **Clean architecture**: Single source of truth for timer logic
+- ✅ **Pure UI component**: Timer component is now a simple, focused UI component
+- ✅ **Centralized state management**: All timer logic and state in App component

@@ -12,7 +12,6 @@ function Timer({
 }) {
   const [minutes, setMinutes] = useState(Math.floor(timeRemaining / 60));
   const [seconds, setSeconds] = useState(timeRemaining % 60);
-  const [autoNextPomo, setAutoNextPomo] = useState(false);
 
   // reflect timeRemaining as min/sec
   useEffect(() => {
@@ -30,20 +29,8 @@ function Timer({
       console.log("Timer, pomo completed via timeRemaining");
       pauseTimer();
       completePomo();
-      setAutoNextPomo(true);
     }
   }, [timeRemaining, timerRunning, currentPomo, pauseTimer, completePomo]);
-
-  // need to pomo roll over, X sec warning
-  useEffect(() => {
-    if (autoNextPomo) {
-      setTimeout(() => {
-        console.log("Timer, autoNextPomo in 3s", autoNextPomo);
-        startTimer();
-        setAutoNextPomo(false);
-      }, 3000);
-    }
-  }, [autoNextPomo, startTimer]);
 
   return (
     <main className="spacing-md-bottom">

@@ -20,6 +20,7 @@ function App() {
   const [timerRunning, setTimerRunning] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(pomoDuration * 60);
   const [totalPomos, setTotalPomos] = useState(0);
+  const [autoNextPomo, setAutoNextPomo] = useState(false);
 
   // Use ref to track current pomosDone value without causing effect re-runs
   const pomosDoneRef = useRef(pomosDone);
@@ -91,6 +92,17 @@ function App() {
 
     return () => clearInterval(backgroundInterval);
   }, [timerRunning, currentPomo, pomoDuration]);
+
+  // Handle auto next pomo rollover
+  useEffect(() => {
+    if (autoNextPomo) {
+      setTimeout(() => {
+        console.log("App, autoNextPomo in 3s", autoNextPomo);
+        startTimer();
+        setAutoNextPomo(false);
+      }, 3000);
+    }
+  }, [autoNextPomo, startTimer]);
 
   // on app init, update state with storage values
   useEffect(() => {
@@ -221,6 +233,9 @@ function App() {
       saveDonePomos(pomosDone, newTotalPomos);
       return pomosDone;
     });
+
+    // Trigger auto next pomo
+    setAutoNextPomo(true);
   }, [currentPomo, pomoDuration, totalPomos]);
 
   return (
