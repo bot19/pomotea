@@ -25,62 +25,69 @@ function App() {
   const pomosDoneRef = useRef(pomosDone);
   pomosDoneRef.current = pomosDone;
 
-  // Background interval to handle silent pauses - runs every 10 seconds
+  // Background interval to handle silent pauses - runs every 1 second for smooth UI, heavy work every 10 seconds
   useEffect(() => {
+    let updateCounter = 0;
     const backgroundInterval = setInterval(() => {
       if (timerRunning && currentPomo) {
-        // Update current time in storage
-        const updatedCurrent = updateCurrentPomoTime();
-        if (updatedCurrent) {
-          // Calculate actual completed pomos based on real elapsed time
-          const actualCompletedPomos = calculateCompletedPomos(
-            updatedCurrent.startTime,
-            updatedCurrent.currentTime,
-            pomoDuration
-          );
+        updateCounter++;
 
-          // Calculate remaining time for current pomo
-          const actualRemainingTime = getRemainingTime(
-            updatedCurrent.startTime,
-            updatedCurrent.currentTime,
-            pomoDuration
-          );
+        // Calculate remaining time every second for smooth UI
+        const now = new Date().toISOString();
+        const actualRemainingTime = getRemainingTime(
+          currentPomo.startTime,
+          now,
+          pomoDuration
+        );
 
-          // Update state with real-time calculations
-          setTimeRemaining(actualRemainingTime);
+        // Update UI every second
+        setTimeRemaining(actualRemainingTime);
 
-          // If we have completed pomos that aren't in our done array, add them
-          if (actualCompletedPomos > pomosDoneRef.current.length) {
-            const newCompletedPomos = [];
-            for (
-              let i = pomosDoneRef.current.length;
-              i < actualCompletedPomos;
-              i++
-            ) {
-              const pomoStartTime = new Date(updatedCurrent.startTime);
-              pomoStartTime.setSeconds(
-                pomoStartTime.getSeconds() + i * pomoDuration * 60
-              );
+        // Do heavy work (storage updates, completed pomo calculations) every 10 seconds
+        if (updateCounter % 10 === 0) {
+          // Update current time in storage
+          const updatedCurrent = updateCurrentPomoTime();
+          if (updatedCurrent) {
+            // Calculate actual completed pomos based on real elapsed time
+            const actualCompletedPomos = calculateCompletedPomos(
+              updatedCurrent.startTime,
+              updatedCurrent.currentTime,
+              pomoDuration
+            );
 
-              newCompletedPomos.push({
-                startTime: pomoStartTime.toISOString(),
-                currentTime: new Date().toISOString(),
-                stopTime: new Date().toISOString(),
-                totalPomo: i + 1,
-              });
+            // If we have completed pomos that aren't in our done array, add them
+            if (actualCompletedPomos > pomosDoneRef.current.length) {
+              const newCompletedPomos = [];
+              for (
+                let i = pomosDoneRef.current.length;
+                i < actualCompletedPomos;
+                i++
+              ) {
+                const pomoStartTime = new Date(updatedCurrent.startTime);
+                pomoStartTime.setSeconds(
+                  pomoStartTime.getSeconds() + i * pomoDuration * 60
+                );
+
+                newCompletedPomos.push({
+                  startTime: pomoStartTime.toISOString(),
+                  currentTime: new Date().toISOString(),
+                  stopTime: new Date().toISOString(),
+                  totalPomo: i + 1,
+                });
+              }
+
+              const updatedPomosDone = [
+                ...pomosDoneRef.current,
+                ...newCompletedPomos,
+              ];
+              setPomosDone(updatedPomosDone);
+              setTotalPomos(actualCompletedPomos);
+              saveDonePomos(updatedPomosDone, actualCompletedPomos);
             }
-
-            const updatedPomosDone = [
-              ...pomosDoneRef.current,
-              ...newCompletedPomos,
-            ];
-            setPomosDone(updatedPomosDone);
-            setTotalPomos(actualCompletedPomos);
-            saveDonePomos(updatedPomosDone, actualCompletedPomos);
           }
         }
       }
-    }, 10000); // Check every 10 seconds
+    }, 1000); // Check every 1 second for smooth UI
 
     return () => clearInterval(backgroundInterval);
   }, [timerRunning, currentPomo, pomoDuration]);

@@ -42,6 +42,12 @@ The app now tracks real elapsed time using `startTime` and `currentTime` timesta
 3. Refresh the page
 4. **Expected**: Timer should resume with correct remaining time
 
+### 5. Smooth UI Updates
+
+1. Start the timer
+2. Watch the countdown
+3. **Expected**: Timer should update smoothly every second without jumps or delays
+
 ## Data Structure Changes
 
 ### Old Structure
@@ -84,15 +90,25 @@ The app now tracks real elapsed time using `startTime` and `currentTime` timesta
 ## Key Features
 
 - **Real-time tracking**: Uses actual timestamps instead of countdown
-- **Background monitoring**: Checks every 10 seconds for silent pauses
+- **Optimized performance**: Smooth 1-second UI updates with 10-second heavy work cycles
 - **Automatic recovery**: Calculates missed pomodoros when tab regains focus
 - **Persistent state**: Survives page reloads and browser restarts
 - **Accurate counting**: Tracks total pomodoros completed, not just manually stopped ones
+- **No doubling up**: Single interval handles all timer logic efficiently
 
 ## Technical Implementation
 
-- Background interval runs every 10 seconds when timer is active
-- `calculateCompletedPomos()` determines how many pomodoros should be complete
-- `getRemainingTime()` calculates remaining time for current pomodoro
-- `updateCurrentPomoTime()` updates the current timestamp in storage
-- Automatic pomodoro completion when real time exceeds duration
+- **Single optimized interval**: Runs every 1 second for smooth UI updates
+- **Efficient heavy work**: Storage updates and completed pomo calculations every 10 seconds
+- **Real-time calculations**: `getRemainingTime()` calculates remaining time based on actual elapsed time
+- **Background monitoring**: `updateCurrentPomoTime()` updates timestamps in storage
+- **Automatic completion**: Pomodoros complete automatically when real time exceeds duration
+- **Clean separation**: Timer component handles UI only, App component handles all timer logic
+
+## Performance Optimizations
+
+- ✅ **Eliminated doubling up**: Removed redundant 1-second interval from Timer component
+- ✅ **Smooth UI**: 1-second updates for responsive countdown display
+- ✅ **Efficient storage**: Heavy operations only every 10 seconds
+- ✅ **Minimal re-renders**: Uses refs to avoid unnecessary effect re-runs
+- ✅ **Clean architecture**: Single source of truth for timer logic

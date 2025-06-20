@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {
-  saveCurrentPomo,
-  updateCurrentPomoTime,
-  getRemainingTime,
-} from "../utils/localStorage";
 
 function Timer({
   currentPomo,
@@ -29,44 +24,15 @@ function Timer({
     setSeconds(timeRemaining % 60);
   }, [timeRemaining]);
 
-  // Real-time timer update - runs every second when timer is running
+  // Check if pomo is complete when timeRemaining reaches 0
   useEffect(() => {
-    let intervalId;
-
-    if (timerRunning && currentPomo) {
-      intervalId = setInterval(() => {
-        // Update current time in storage
-        const updatedCurrent = updateCurrentPomoTime();
-        if (updatedCurrent) {
-          // Calculate remaining time based on real elapsed time
-          const actualRemainingTime = getRemainingTime(
-            updatedCurrent.startTime,
-            updatedCurrent.currentTime,
-            pomoDuration
-          );
-
-          setTimeRemaining(actualRemainingTime);
-
-          // Check if current pomo is complete
-          if (actualRemainingTime <= 0) {
-            clearInterval(intervalId);
-            pauseTimer();
-            completePomo();
-            setAutoNextPomo(true);
-          }
-        }
-      }, 1000);
+    if (timeRemaining <= 0 && timerRunning && currentPomo) {
+      console.log("Timer, pomo completed via timeRemaining");
+      pauseTimer();
+      completePomo();
+      setAutoNextPomo(true);
     }
-
-    return () => clearInterval(intervalId);
-  }, [
-    timerRunning,
-    currentPomo,
-    pomoDuration,
-    setTimeRemaining,
-    pauseTimer,
-    completePomo,
-  ]);
+  }, [timeRemaining, timerRunning, currentPomo, pauseTimer, completePomo]);
 
   // need to pomo roll over, X sec warning
   useEffect(() => {
