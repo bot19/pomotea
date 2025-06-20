@@ -25,6 +25,7 @@ const createDayData = (pomoDataString) => {
             date: today,
             current: null,
             done: [],
+            totalPomos: 0,
           },
         ];
 
@@ -39,9 +40,10 @@ const createDayData = (pomoDataString) => {
           date: today,
           current: prevDayData.current,
           done: [],
+          totalPomos: 0,
         });
       } else {
-        pomoData.push({ date: today, current: null, done: [] });
+        pomoData.push({ date: today, current: null, done: [], totalPomos: 0 });
       }
     }
 
@@ -78,13 +80,17 @@ export function saveCurrentPomo(currentPomoObj) {
 }
 
 // today pomo data will exist
-export function saveDonePomos(pomosDoneArray) {
+export function saveDonePomos(pomosDoneArray, totalPomos = 0) {
   const today = getLocalDate(); // '2025-06-05'
   let pomoData = loadPomoData(); // [{...}, ...]
 
   const todayPomo = pomoData.find((dayObj) => dayObj.date === today);
   const todayIndex = pomoData.findIndex((dayObj) => dayObj.date === today);
-  pomoData[todayIndex] = { ...todayPomo, done: pomosDoneArray };
+  pomoData[todayIndex] = { 
+    ...todayPomo, 
+    done: pomosDoneArray,
+    totalPomos: totalPomos || todayPomo.totalPomos || 0
+  };
 
   localStorage.setItem(POMO_DATA_KEY, JSON.stringify(pomoData));
 }
@@ -94,6 +100,56 @@ export function loadCurrentDay() {
   const pomoData = loadPomoData();
   const todayData = pomoData.find((day) => day.date === today);
   return todayData ? todayData : null;
+}
+
+// New function to update current pomo with real time tracking
+export function updateCurrentPomoTime() {
+  const today = getLocalDate();
+  let pomoData = loadPomoData();
+  const todayIndex = pomoData.findIndex((dayObj) => dayObj.date === today);
+  
+  if (todayIndex === -1) return null;
+  
+  const todayPomo = pomoData[todayIndex];
+  if (!todayPomo.current) return null;
+  
+  const now = new Date().toISOString();
+  const updatedCurrent = {
+    ...todayPomo.current,
+    currentTime: now,
+  };
+  
+  pomoData[todayIndex] = { ...todayPomo, current: updatedCurrent };
+  localStorage.setItem(POMO_DATA_KEY, JSON.stringify(pomoData));
+  
+  return updatedCurrent;
+}
+
+// New function to calculate completed pomos based on real elapsed time
+export function calculateCompletedPomos(startTime, currentTime, pomoDurationMinutes) {
+  if (!startTime || !currentTime) return 0;
+  
+  const start = new Date(startTime);
+  const current = new Date(currentTime);
+  const elapsedSeconds = Math.floor((current - start) / 1000);
+  const pomoDurationSeconds = pomoDurationMinutes * 60;
+  
+  return Math.floor(elapsedSeconds / pomoDurationSeconds);
+}
+
+// New function to get remaining time based on real elapsed time
+export function getRemainingTime(startTime, currentTime, pomoDurationMinutes) {
+  if (!startTime || !currentTime) return pomoDurationMinutes * 60;
+  
+  const start = new Date(startTime);
+  const current = new Date(currentTime);
+  const elapsedSeconds = Math.floor((current - start) / 1000);
+  const pomoDurationSeconds = pomoDurationMinutes * 60;
+  
+  const completedPomos = Math.floor(elapsedSeconds / pomoDurationSeconds);
+  const timeIntoCurrentPomo = elapsedSeconds % pomoDurationSeconds;
+  
+  return pomoDurationSeconds - timeIntoCurrentPomo;
 }
 
 export function loadMonthlyPomos(month, year) {
@@ -106,9 +162,7 @@ export function loadMonthlyPomos(month, year) {
     const dayYear = parseInt(yearStr, 10);
 
     if (dayMonth === month && dayYear === year) {
-      monthlyPomos[day.date] = day.pomos.filter(
-        (pomo) => pomo.completed
-      ).length;
+      monthlyPomos[day.date] = day.totalPomos || 0;
     }
   });
 

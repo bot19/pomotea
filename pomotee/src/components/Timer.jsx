@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { saveCurrentPomo } from "./utils/localStorage";
+import {
+  saveCurrentPomo,
+  updateCurrentPomoTime,
+  getRemainingTime,
+} from "../utils/localStorage";
 
 function Timer({
   currentPomo,
@@ -25,50 +29,43 @@ function Timer({
     setSeconds(timeRemaining % 60);
   }, [timeRemaining]);
 
-  // as timer running, descrease pomo duration
+  // Real-time timer update - runs every second when timer is running
   useEffect(() => {
     let intervalId;
 
-    if (timerRunning) {
+    if (timerRunning && currentPomo) {
       intervalId = setInterval(() => {
-        setTimeRemaining((prevTime) => {
-          if (prevTime > 0) {
-            const newTimeRemaining = prevTime - 1;
+        // Update current time in storage
+        const updatedCurrent = updateCurrentPomoTime();
+        if (updatedCurrent) {
+          // Calculate remaining time based on real elapsed time
+          const actualRemainingTime = getRemainingTime(
+            updatedCurrent.startTime,
+            updatedCurrent.currentTime,
+            pomoDuration
+          );
 
-            // save to storage to persist state
-            const newCurrentPomo = {
-              ...currentPomo,
-              timeLeft: newTimeRemaining,
-            };
-            console.log(
-              "Timer, useEffect timer countdown - stage storage",
-              newCurrentPomo
-            );
-            saveCurrentPomo(newCurrentPomo);
+          setTimeRemaining(actualRemainingTime);
 
-            return newTimeRemaining;
-          } else {
-            // Timer has reached 0
+          // Check if current pomo is complete
+          if (actualRemainingTime <= 0) {
             clearInterval(intervalId);
             pauseTimer();
             completePomo();
-
             setAutoNextPomo(true);
-            // reset timeRemaining
-            return pomoDuration * 60;
           }
-        });
+        }
       }, 1000);
     }
 
     return () => clearInterval(intervalId);
   }, [
     timerRunning,
-    setTimeRemaining,
+    currentPomo,
     pomoDuration,
+    setTimeRemaining,
     pauseTimer,
     completePomo,
-    currentPomo,
   ]);
 
   // need to pomo roll over, X sec warning
