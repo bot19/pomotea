@@ -4,8 +4,10 @@ import {
   saveCurrentPomo,
   saveDonePomos,
   updateCurrentPomoTime,
-  calculateCompletedPomos,
   getRemainingTime,
+  calculateDayPomos,
+  createNewPomo,
+  completeCurrentPomo,
 } from "../utils/localStorage";
 
 export function usePomodoroTimer(initialDuration = 22) {
@@ -14,7 +16,7 @@ export function usePomodoroTimer(initialDuration = 22) {
   const [pomosDone, setPomosDone] = useState([]);
   const [timerRunning, setTimerRunning] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(initialDuration * 60);
-  const [totalPomos, setTotalPomos] = useState(0);
+  const [dayPomos, setDayPomos] = useState(0);
   const [autoNextPomo, setAutoNextPomo] = useState(false);
   
   // Use ref to track current pomosDone value without causing effect re-runs
@@ -29,59 +31,28 @@ export function usePomodoroTimer(initialDuration = 22) {
         updateCounter++;
         
         // Calculate remaining time every second for smooth UI
-        const now = new Date().toISOString();
-        const actualRemainingTime = getRemainingTime(
-          currentPomo.startTime,
-          now,
-          pomoDuration
-        );
-        
-        // Update UI every second
+        const actualRemainingTime = getRemainingTime(currentPomo, pomoDuration);
         setTimeRemaining(actualRemainingTime);
         
-        // Do heavy work (storage updates, completed pomo calculations) every 10 seconds
+        // Do heavy work (storage updates, silent pause handling) every 10 seconds
         if (updateCounter % 10 === 0) {
-          // Update current time in storage
+          // Update current time in storage and handle silent pauses
           const updatedCurrent = updateCurrentPomoTime();
           if (updatedCurrent) {
-            // Calculate actual completed pomos based on real elapsed time
-            const actualCompletedPomos = calculateCompletedPomos(
-              updatedCurrent.startTime,
-              updatedCurrent.currentTime,
-              pomoDuration
-            );
-
-            // If we have completed pomos that aren't in our done array, add them
-            if (actualCompletedPomos > pomosDoneRef.current.length) {
-              const newCompletedPomos = [];
-              for (
-                let i = pomosDoneRef.current.length;
-                i < actualCompletedPomos;
-                i++
-              ) {
-                const pomoStartTime = new Date(updatedCurrent.startTime);
-                pomoStartTime.setSeconds(
-                  pomoStartTime.getSeconds() + i * pomoDuration * 60
-                );
-
-                newCompletedPomos.push({
-                  startTime: pomoStartTime.toISOString(),
-                  currentTime: new Date().toISOString(),
-                  stopTime: new Date().toISOString(),
-                  totalPomo: i + 1,
-                });
-              }
-
-              const updatedPomosDone = [
-                ...pomosDoneRef.current,
-                ...newCompletedPomos,
-              ];
-              setPomosDone(updatedPomosDone);
-              setTotalPomos(actualCompletedPomos);
-              saveDonePomos(updatedPomosDone, actualCompletedPomos);
+            // Check if we got a new current pomo (silent pause occurred)
+            if (updatedCurrent !== currentPomo) {
+              setCurrentPomo(updatedCurrent);
+              
+              // Reload current day data to get updated done array and dayPomos
+              const storageDayData = loadCurrentDay();
+              setPomosDone(storageDayData.done || []);
+              setDayPomos(storageDayData.dayPomos || 0);
             }
           }
         }
+      } else if (!currentPomo) {
+        // No current pomo, set time to full duration
+        setTimeRemaining(pomoDuration * 60);
       }
     }, 1000); // Check every 1 second for smooth UI
 
@@ -92,7 +63,6 @@ export function usePomodoroTimer(initialDuration = 22) {
   useEffect(() => {
     if (autoNextPomo) {
       setTimeout(() => {
-        console.log("usePomodoroTimer, autoNextPomo in 3s", autoNextPomo);
         startTimer();
         setAutoNextPomo(false);
       }, 3000);
@@ -102,58 +72,47 @@ export function usePomodoroTimer(initialDuration = 22) {
   // on app init, update state with storage values
   useEffect(() => {
     const storageDayData = loadCurrentDay();
-    console.log("usePomodoroTimer, currentDayPomos", storageDayData);
 
     if (storageDayData.current) {
       setCurrentPomo(storageDayData.current);
 
       // Calculate remaining time based on real elapsed time
-      const remainingTime = getRemainingTime(
-        storageDayData.current.startTime,
-        storageDayData.current.currentTime || storageDayData.current.startTime,
-        pomoDuration
-      );
+      const remainingTime = getRemainingTime(storageDayData.current, pomoDuration);
       setTimeRemaining(remainingTime);
 
-      // If timer was running (stopTime is null), check if it should still be running
-      if (storageDayData.current.stopTime === null) {
+      // If timer was running (endTime is null), check if it should still be running
+      if (storageDayData.current.endTime === null) {
         // Only start if there's actually time remaining
         if (remainingTime > 0) {
           setTimerRunning(true);
         } else {
           // Timer has completed, mark it as done
-          const now = new Date().toISOString();
-          const donePomo = {
-            ...storageDayData.current,
-            currentTime: now,
-            stopTime: now,
-            totalPomo: (storageDayData.totalPomos || 0) + 1,
-          };
-          setPomosDone((prev) => [...prev, donePomo]);
-          setTotalPomos((storageDayData.totalPomos || 0) + 1);
-          saveDonePomos(
-            [...(storageDayData.done || []), donePomo],
-            (storageDayData.totalPomos || 0) + 1
-          );
-          setCurrentPomo(null);
+          const donePomo = completeCurrentPomo(storageDayData.current);
+          if (donePomo) {
+            const updatedDone = [...(storageDayData.done || []), donePomo];
+            const updatedDayPomos = calculateDayPomos(updatedDone);
+            
+            setPomosDone(updatedDone);
+            setDayPomos(updatedDayPomos);
+            saveDonePomos(updatedDone, updatedDayPomos);
+            setCurrentPomo(null);
+          }
         }
       }
+    } else {
+      // No current pomo, set initial time
+      setTimeRemaining(pomoDuration * 60);
     }
-    if (storageDayData.done.length > 0) {
+    
+    if (storageDayData.done && storageDayData.done.length > 0) {
       setPomosDone(storageDayData.done);
-      setTotalPomos(storageDayData.totalPomos || storageDayData.done.length);
+      setDayPomos(storageDayData.dayPomos || calculateDayPomos(storageDayData.done));
     }
   }, [pomoDuration]);
 
   const setNewPomoDuration = useCallback(
     (newDuration) => {
       setPomoDuration(newDuration);
-
-      console.log(
-        "usePomodoroTimer, set pomoDuration",
-        timerRunning,
-        currentPomo
-      );
 
       // don't reset timeRemaining if pomo in progress
       if (!timerRunning && !currentPomo) {
@@ -168,26 +127,15 @@ export function usePomodoroTimer(initialDuration = 22) {
 
     // if no pomos yet, or last pomo is completed
     if (!currentPomo) {
-      console.log("usePomodoroTimer, startTimer");
-
-      // Start a new pomo with real-time tracking
-      const now = new Date().toISOString();
-      const newPomo = {
-        startTime: now,
-        currentTime: now,
-        stopTime: null,
-        totalPomo: 0,
-      };
-
+      // Start a new pomo with the new data structure
+      const newPomo = createNewPomo(pomoDuration);
       setCurrentPomo(newPomo);
       saveCurrentPomo(newPomo);
     } else {
-      // Resume existing pomo - update current time
-      const now = new Date().toISOString();
+      // Resume existing pomo - update endTime to null to indicate running
       const updatedPomo = {
         ...currentPomo,
-        currentTime: now,
-        stopTime: null,
+        endTime: null,
       };
       setCurrentPomo(updatedPomo);
       saveCurrentPomo(updatedPomo);
@@ -199,39 +147,31 @@ export function usePomodoroTimer(initialDuration = 22) {
     setTimerRunning(false);
 
     const now = new Date().toISOString();
-    const newPomo = {
+    const updatedPomo = {
       ...currentPomo,
-      currentTime: now,
-      stopTime: now,
+      endTime: now,
     };
 
-    console.log("usePomodoroTimer, pauseTimer", newPomo);
-    setCurrentPomo(newPomo);
-    saveCurrentPomo(newPomo);
-  }, [currentPomo, timeRemaining]);
+    setCurrentPomo(updatedPomo);
+    saveCurrentPomo(updatedPomo);
+  }, [currentPomo]);
 
   const completePomo = useCallback(() => {
-    const now = new Date().toISOString();
-    const donePomo = {
-      ...currentPomo,
-      currentTime: now,
-      stopTime: now,
-      totalPomo: totalPomos + 1,
-    };
+    const donePomo = completeCurrentPomo(currentPomo);
+    if (!donePomo) return;
 
-    console.log("usePomodoroTimer, completePomo", donePomo);
     setCurrentPomo(null);
     setPomosDone((prevPomosDone) => {
       const pomosDone = [...prevPomosDone, donePomo];
-      const newTotalPomos = totalPomos + 1;
-      setTotalPomos(newTotalPomos);
-      saveDonePomos(pomosDone, newTotalPomos);
+      const newDayPomos = calculateDayPomos(pomosDone);
+      setDayPomos(newDayPomos);
+      saveDonePomos(pomosDone, newDayPomos);
       return pomosDone;
     });
     
     // Trigger auto next pomo
     setAutoNextPomo(true);
-  }, [currentPomo, pomoDuration, totalPomos]);
+  }, [currentPomo]);
 
   return {
     // State
@@ -240,7 +180,7 @@ export function usePomodoroTimer(initialDuration = 22) {
     pomosDone,
     timerRunning,
     timeRemaining,
-    totalPomos,
+    dayPomos,
     autoNextPomo,
     
     // Actions

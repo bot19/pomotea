@@ -14,7 +14,7 @@ function App() {
     pomosDone,
     timerRunning,
     timeRemaining,
-    totalPomos,
+    dayPomos,
     autoNextPomo,
 
     // Actions
@@ -39,7 +39,7 @@ function App() {
           pomoDuration={pomoDuration}
           completePomo={completePomo}
         />
-        <PomoTracker currentDayPomos={totalPomos} />
+        <PomoTracker currentDayPomos={dayPomos} />
         <MultiTab setPomoDuration={setNewPomoDuration} />
         <footer>version 0.9</footer>
       </div>

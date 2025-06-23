@@ -15,10 +15,6 @@ function Timer({
 
   // reflect timeRemaining as min/sec
   useEffect(() => {
-    console.log(
-      "Timer, timeRemaining changed, update M:S Timer",
-      timeRemaining
-    );
     setMinutes(Math.floor(timeRemaining / 60));
     setSeconds(timeRemaining % 60);
   }, [timeRemaining]);
