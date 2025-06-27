@@ -6,17 +6,17 @@ import {
   updateCurrentPomoTime,
   getRemainingTime,
   calculateDayPomos,
-  createNewPomo,
   completeCurrentPomo,
+  createInitialCurrentPomo,
 } from "../utils/localStorage";
 
-export function usePomodoroTimer(initialDuration = 22) {
+export function usePomodoroTimer(initialDuration) {
   const [pomoDuration, setPomoDuration] = useState(initialDuration);
   const [currentPomo, setCurrentPomo] = useState(null);
   const [pomosDone, setPomosDone] = useState([]);
   const [timerRunning, setTimerRunning] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(initialDuration * 60);
-  const [dayPomos, setDayPomos] = useState(0);
+  const [dayPomos, setDayPomos] = useState(0); // not sure if need, read off storage?
   const [autoNextPomo, setAutoNextPomo] = useState(false);
   
   // Use ref to track current pomosDone value without causing effect re-runs
@@ -39,10 +39,12 @@ export function usePomodoroTimer(initialDuration = 22) {
           // Update current time in storage and handle silent pauses
           const updatedCurrent = updateCurrentPomoTime();
           if (updatedCurrent) {
+            // Always update currentPomo state since storage was updated
+            setCurrentPomo(updatedCurrent);
+            
             // Check if we got a new current pomo (silent pause occurred)
-            if (updatedCurrent !== currentPomo) {
-              setCurrentPomo(updatedCurrent);
-              
+            // Compare startTime - if it changed, a silent pause occurred and we got a new pomo
+            if (updatedCurrent.startTime !== currentPomo.startTime) {
               // Reload current day data to get updated done array and dayPomos
               const storageDayData = loadCurrentDay();
               setPomosDone(storageDayData.done || []);
@@ -72,7 +74,10 @@ export function usePomodoroTimer(initialDuration = 22) {
   // on app init, update state with storage values
   useEffect(() => {
     const storageDayData = loadCurrentDay();
+    let updatedDone = storageDayData.done || [];
+    let updatedDayPomos = storageDayData.dayPomos || 0;
 
+    // BLOCK 1: Handle current pomo (if exists)
     if (storageDayData.current) {
       setCurrentPomo(storageDayData.current);
 
@@ -86,27 +91,27 @@ export function usePomodoroTimer(initialDuration = 22) {
         if (remainingTime > 0) {
           setTimerRunning(true);
         } else {
-          // Timer has completed, mark it as done
+          // BLOCK 2: Timer has completed naturally - mark it as done
           const donePomo = completeCurrentPomo(storageDayData.current);
           if (donePomo) {
-            const updatedDone = [...(storageDayData.done || []), donePomo];
-            const updatedDayPomos = calculateDayPomos(updatedDone);
-            
-            setPomosDone(updatedDone);
-            setDayPomos(updatedDayPomos);
-            saveDonePomos(updatedDone, updatedDayPomos);
+            updatedDone = [...updatedDone, donePomo];
+            updatedDayPomos = calculateDayPomos(updatedDone);
             setCurrentPomo(null);
           }
         }
       }
     } else {
-      // No current pomo, set initial time
+      // BLOCK 3: No current pomo - set initial time for new pomo
       setTimeRemaining(pomoDuration * 60);
     }
     
-    if (storageDayData.done && storageDayData.done.length > 0) {
-      setPomosDone(storageDayData.done);
-      setDayPomos(storageDayData.dayPomos || calculateDayPomos(storageDayData.done));
+    // BLOCK 4: Update state with all completed pomos (existing + newly completed)
+    setPomosDone(updatedDone);
+    setDayPomos(updatedDayPomos);
+    
+    // Save to storage if we added a newly completed pomo
+    if (updatedDone.length > (storageDayData.done || []).length) {
+      saveDonePomos(updatedDone, updatedDayPomos);
     }
   }, [pomoDuration]);
 
@@ -128,7 +133,7 @@ export function usePomodoroTimer(initialDuration = 22) {
     // if no pomos yet, or last pomo is completed
     if (!currentPomo) {
       // Start a new pomo with the new data structure
-      const newPomo = createNewPomo(pomoDuration);
+      const newPomo = createInitialCurrentPomo(pomoDuration);
       setCurrentPomo(newPomo);
       saveCurrentPomo(newPomo);
     } else {

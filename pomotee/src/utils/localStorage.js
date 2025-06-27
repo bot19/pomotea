@@ -1,5 +1,7 @@
 // utils/localStorage.js
 
+import { CONFIG } from '../config.js';
+
 const POMO_DATA_KEY = "pomo_data";
 // const POMO_CONFIG = "pomo_config";
 
@@ -12,7 +14,7 @@ const getLocalDate = (date) => {
   )}-${String(date.getDate()).padStart(2, "0")}`;
 };
 
-// Create initial day data structure
+// Create initial day data structure; empty day obj, current pomo = null
 const createInitialDayData = (date) => ({
   date: date,
   current: null,
@@ -21,7 +23,7 @@ const createInitialDayData = (date) => ({
 });
 
 // Create initial current pomo object
-const createInitialCurrentPomo = (pomoLengthMin) => {
+export const createInitialCurrentPomo = (pomoLengthMin) => {
   const now = new Date().toISOString();
   return {
     startTime: now,
@@ -39,7 +41,7 @@ export const calculatePomoProgress = (startTime, pomoLengthSec) => {
   
   const now = new Date();
   const start = new Date(startTime);
-  const elapsedSeconds = Math.floor((now - start) / 1000);
+  const elapsedSeconds = Math.floor((now - start) / 1000); // ms -> s
   
   return {
     pomoProgress: elapsedSeconds,
@@ -49,6 +51,7 @@ export const calculatePomoProgress = (startTime, pomoLengthSec) => {
 
 // Check if we need to handle silent pause (multiple pomos completed)
 const handleSilentPause = (currentPomo) => {
+  // TODO: we should always have a current pomo, so this should never happen
   if (!currentPomo || !currentPomo.startTime) return null;
   
   const { pomoProgress, totalPomos } = calculatePomoProgress(
@@ -57,21 +60,24 @@ const handleSilentPause = (currentPomo) => {
   );
   
   // If we have completed pomos (totalPomos > 0), handle silent pause
+  // is Math.floor = only int count of pomos, eg: 1, 2, 3, etc
   if (totalPomos > 0) {
-    const now = new Date().toISOString();
-    
-    // Move current pomo to done with completed pomos
-    const donePomo = {
-      ...currentPomo,
-      endTime: now,
-      pomoProgress: pomoProgress,
-      totalPomos: totalPomos
-    };
+    const now = new Date();
     
     // Calculate remaining time for new current pomo
+    // here if more than 1 pomo, eg: get .23 from 3.23 pomos
     const remainingSeconds = pomoProgress % currentPomo.pomoLengthSec;
     const newStartTime = new Date(now);
-    newStartTime.setSeconds(newStartTime.getSeconds() - remainingSeconds);
+    newStartTime.setTime(newStartTime.getTime() - (remainingSeconds * 1000));
+    
+    // Move current pomo to done with completed pomos
+    // endTime should align with startTime of new pomo for continuity
+    const donePomo = {
+      ...currentPomo,
+      endTime: newStartTime.toISOString(),
+      pomoProgress: pomoProgress, // could total 3.23 pomos
+      totalPomos: totalPomos // just capture the int count of pomos (3)
+    };
     
     // Create new current pomo with remaining time
     const newCurrentPomo = {
@@ -112,17 +118,18 @@ const createDayData = (pomoDataString) => {
         
         if (totalPomos > 0) {
           // Scenario 3: Multi pomo progress - move to done
-          const donePomo = {
-            ...prevDayData.current,
-            endTime: new Date().toISOString(),
-            pomoProgress: pomoProgress,
-            totalPomos: totalPomos
-          };
           
           // Create new current pomo with remaining time
           const remainingSeconds = pomoProgress % prevDayData.current.pomoLengthSec;
           const newStartTime = new Date();
-          newStartTime.setSeconds(newStartTime.getSeconds() - remainingSeconds);
+          newStartTime.setTime(newStartTime.getTime() - (remainingSeconds * 1000));
+          
+          const donePomo = {
+            ...prevDayData.current,
+            endTime: newStartTime.toISOString(),
+            pomoProgress: pomoProgress, // could total 3.23 pomos
+            totalPomos: totalPomos // just capture the int count of pomos (3)
+          };
           
           todayData = {
             date: today,
@@ -148,6 +155,7 @@ const createDayData = (pomoDataString) => {
         }
       } else {
         // Scenario 1: No previous pomo - create new day
+        // todayData = empty day obj, current pomo = null
         todayData = createInitialDayData(today);
       }
       
@@ -169,13 +177,20 @@ function loadPomoData() {
   return pomoData;
 }
 
+// Helper function to find today's index in pomoData and throw if not found
+function getTodayIndex(pomoData) {
+  const today = getLocalDate();
+  const todayIndex = pomoData.findIndex((dayObj) => dayObj.date === today);
+  if (todayIndex === -1) {
+    throw new Error(`Critical error: Today's data (${today}) not found in pomoData after loadPomoData()`);
+  }
+  return todayIndex;
+}
+
 // Save current pomo to storage
 export function saveCurrentPomo(currentPomoObj) {
-  const today = getLocalDate();
   let pomoData = loadPomoData();
-  
-  const todayIndex = pomoData.findIndex((dayObj) => dayObj.date === today);
-  if (todayIndex === -1) return;
+  const todayIndex = getTodayIndex(pomoData);
   
   pomoData[todayIndex] = { 
     ...pomoData[todayIndex], 
@@ -187,11 +202,8 @@ export function saveCurrentPomo(currentPomoObj) {
 
 // Save done pomos to storage
 export function saveDonePomos(donePomosArray, dayPomos = 0) {
-  const today = getLocalDate();
   let pomoData = loadPomoData();
-  
-  const todayIndex = pomoData.findIndex((dayObj) => dayObj.date === today);
-  if (todayIndex === -1) return;
+  const todayIndex = getTodayIndex(pomoData);
   
   pomoData[todayIndex] = { 
     ...pomoData[todayIndex], 
@@ -211,15 +223,15 @@ export function loadCurrentDay() {
 }
 
 // Update current pomo with real time tracking and handle silent pauses
+// TODO: what is this meant to return? Why?
 export function updateCurrentPomoTime() {
-  const today = getLocalDate();
   let pomoData = loadPomoData();
-  const todayIndex = pomoData.findIndex((dayObj) => dayObj.date === today);
-  
-  if (todayIndex === -1) return null;
-  
+  const todayIndex = getTodayIndex(pomoData);
   const todayPomo = pomoData[todayIndex];
-  if (!todayPomo.current) return null;
+  
+  if (!todayPomo.current) {
+    throw new Error("updateCurrentPomoTime() called but no current pomo exists - this indicates a bug in the calling code");
+  }
   
   // Check for silent pause
   const silentPauseResult = handleSilentPause(todayPomo.current);
@@ -260,15 +272,17 @@ export function updateCurrentPomoTime() {
 }
 
 // Calculate remaining time for current pomo
-export function getRemainingTime(currentPomo, pomoDuration = 22) {
+// what we store is pomoProgress, eg: 1300 (s) of 1320, remain = 20s
+export function getRemainingTime(currentPomo, pomoDuration = CONFIG.defaults.duration) {
   if (!currentPomo || !currentPomo.startTime) {
-    // No current pomo, return full duration
+    // No current pomo, return full duration, eg: new pomo
     return pomoDuration * 60;
   }
   
-  // If pomo is paused (has endTime), return full duration
+  // If pomo is paused (has endTime), calculate remaining from stored progress
   if (currentPomo.endTime) {
-    return currentPomo.pomoLengthSec;
+    const timeIntoCurrentPomo = currentPomo.pomoProgress % currentPomo.pomoLengthSec;
+    return currentPomo.pomoLengthSec - timeIntoCurrentPomo;
   }
   
   // Pomo is running, calculate remaining time
@@ -286,7 +300,7 @@ export function calculateDayPomos(donePomos) {
   return donePomos.reduce((total, pomo) => total + (pomo.totalPomos || 0), 0);
 }
 
-// Load monthly pomos
+// Load monthly pomos - unused, unchecked, TODO: review
 export function loadMonthlyPomos(month, year) {
   const pomoData = loadPomoData();
   const monthlyPomos = {};
@@ -302,11 +316,6 @@ export function loadMonthlyPomos(month, year) {
   });
 
   return monthlyPomos;
-}
-
-// Helper function to create a new pomo
-export function createNewPomo(pomoLengthMin) {
-  return createInitialCurrentPomo(pomoLengthMin);
 }
 
 // Helper function to complete current pomo
