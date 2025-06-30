@@ -1,5 +1,3 @@
 export const CONFIG = {
-  defaults: {
-    duration: 22,
-  },
+  DEFAULT_POMO_LENGTH: 22, // minutes
 };

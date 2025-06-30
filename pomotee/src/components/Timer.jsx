@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from "react";
 
+/**
+ * Timer component for displaying and controlling pomodoro timer
+ * Uses simplified props from the new timer hook
+ */
 function Timer({
-  currentPomo,
   timeRemaining,
   timerRunning,
   startTimer,
-  pauseTimer, // memo
-  setTimeRemaining, // stable
-  pomoDuration,
-  completePomo, // memo
+  pauseTimer,
+  stopTimer,
 }) {
   const [minutes, setMinutes] = useState(Math.floor(timeRemaining / 60));
   const [seconds, setSeconds] = useState(timeRemaining % 60);
 
-  // reflect timeRemaining as min/sec
+  // Update display when timeRemaining changes
   useEffect(() => {
     setMinutes(Math.floor(timeRemaining / 60));
     setSeconds(timeRemaining % 60);
   }, [timeRemaining]);
 
-  // Check if pomo is complete when timeRemaining reaches 0
-  useEffect(() => {
-    if (timeRemaining <= 0 && timerRunning && currentPomo) {
-      console.log("Timer, pomo completed via timeRemaining");
+  // Handle button click - start or pause
+  const handleButtonClick = () => {
+    if (timerRunning) {
       pauseTimer();
-      completePomo();
+    } else {
+      startTimer();
     }
-  }, [timeRemaining, timerRunning, currentPomo, pauseTimer, completePomo]);
+  };
 
   return (
     <main className="spacing-md-bottom">
@@ -35,7 +36,7 @@ function Timer({
         <span className="timer-colon">:</span>
         <span>{seconds.toString().padStart(2, "0")}</span>
       </h2>
-      <button onClick={timerRunning ? pauseTimer : startTimer}>
+      <button onClick={handleButtonClick}>
         {timerRunning ? "Pause" : "Start"}
       </button>
     </main>

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { Settings } from "./Settings";
 
-function MultiTab({ setPomoDuration }) {
+/**
+ * MultiTab component for future features
+ * Currently simplified to focus on basic timer functionality
+ */
+function MultiTab() {
   const [openTab, setOpenTab] = useState("");
 
   return (
@@ -26,7 +29,11 @@ function MultiTab({ setPomoDuration }) {
 
       {openTab.length > 0 && <hr />}
 
-      {openTab === "settings" && <Settings setPomoDuration={setPomoDuration} />}
+      {openTab === "settings" && (
+        <div className="settings">
+          <p>Settings coming soon...</p>
+        </div>
+      )}
     </section>
   );
 }

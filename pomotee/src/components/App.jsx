@@ -3,26 +3,61 @@ import Timer from "./Timer";
 import PomoTracker from "./PomoTracker";
 import MultiTab from "./MultiTab";
 import { usePomodoroTimer } from "../hooks/usePomodoroTimer";
+import { getPomoData } from "../utils/localStorage";
 import "../styles/App.css";
 import { CONFIG } from "../config";
 
+/**
+ * Main App component using the new simplified timer hook
+ */
 function App() {
+  const {
+    timeRemaining,
+    timerRunning,
+    completedPomos,
+    startTimer,
+    pauseTimer,
+    stopTimer,
+    dayData,
+  } = usePomodoroTimer();
+
+  // Get full storage array for debugging
+  const fullStorageData = JSON.parse(localStorage.getItem("pomo_data") || "[]");
+
   return (
     <div className={`App ${timerRunning ? "pomo-active" : ""}`}>
       <div>
         <h1>👨🏻‍💻 Pomotea ☕️</h1>
         <Timer
-          currentPomo={currentPomo}
           timeRemaining={timeRemaining}
           timerRunning={timerRunning}
           startTimer={startTimer}
           pauseTimer={pauseTimer}
-          setTimeRemaining={setTimeRemaining}
-          pomoDuration={pomoDuration}
-          completePomo={completePomo}
+          stopTimer={stopTimer}
         />
-        <PomoTracker currentDayPomos={dayPomos} />
-        <MultiTab setPomoDuration={setNewPomoDuration} />
+        <PomoTracker currentDayPomos={completedPomos} />
+        <MultiTab />
+
+        {/* Debug section - remove in production */}
+        <div
+          style={{
+            marginTop: "20px",
+            padding: "10px",
+            backgroundColor: "#f0f0f0",
+            fontSize: "12px",
+            fontFamily: "monospace",
+            height: "290px",
+            overflow: "auto",
+            border: "1px solid #ccc",
+          }}
+        >
+          <h4>Debug - Current Day Data:</h4>
+          <pre>{JSON.stringify(dayData, null, 2)}</pre>
+
+          <h4>Debug - Full Storage Array:</h4>
+          <pre>{JSON.stringify(fullStorageData, null, 2)}</pre>
+        </div>
+
         <footer>version 1.0</footer>
       </div>
     </div>
