@@ -7,24 +7,6 @@ import "../styles/App.css";
 import { CONFIG } from "../config";
 
 function App() {
-  const {
-    // State
-    pomoDuration,
-    currentPomo,
-    pomosDone,
-    timerRunning,
-    timeRemaining,
-    dayPomos,
-    autoNextPomo,
-
-    // Actions
-    setNewPomoDuration,
-    startTimer,
-    pauseTimer,
-    completePomo,
-    setTimeRemaining,
-  } = usePomodoroTimer(CONFIG.defaults.duration);
-
   return (
     <div className={`App ${timerRunning ? "pomo-active" : ""}`}>
       <div>
@@ -41,7 +23,7 @@ function App() {
         />
         <PomoTracker currentDayPomos={dayPomos} />
         <MultiTab setPomoDuration={setNewPomoDuration} />
-        <footer>version 0.9</footer>
+        <footer>version 1.0</footer>
       </div>
     </div>
   );
