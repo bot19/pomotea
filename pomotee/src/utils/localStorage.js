@@ -121,14 +121,26 @@ export const updateLastTimeEntry = (duration) => {
   const today = getLocalDate();
   const dayData = getPomoData(today);
   
+  console.log('updateLastTimeEntry - Input duration:', duration);
+  console.log('updateLastTimeEntry - Current dayData:', dayData);
+  
   // getPomoData now guarantees valid structure
   if (dayData && dayData.timeData.length > 0) {
     const lastIndex = dayData.timeData.length - 1;
+    console.log('updateLastTimeEntry - Last entry before update:', dayData.timeData[lastIndex]);
+    
     dayData.timeData[lastIndex][1] = duration;
+    
+    console.log('updateLastTimeEntry - Last entry after update:', dayData.timeData[lastIndex]);
+    
     savePomoData(today, dayData);
+    
+    console.log('updateLastTimeEntry - Saved dayData:', dayData);
+    
     return dayData;
   }
   
+  console.log('updateLastTimeEntry - No valid dayData or timeData empty');
   return null;
 };
 
