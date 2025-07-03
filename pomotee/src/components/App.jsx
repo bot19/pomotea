@@ -2,6 +2,7 @@ import React from "react";
 import Timer from "./Timer";
 import PomoTracker from "./PomoTracker";
 import MultiTab from "./MultiTab";
+import Debug from "./Debug";
 import { usePomodoroTimer } from "../hooks/usePomodoroTimer";
 import { getPomoData } from "../utils/localStorage";
 import "../styles/App.css";
@@ -33,30 +34,12 @@ function App() {
           timerRunning={timerRunning}
           startTimer={startTimer}
           pauseTimer={pauseTimer}
-          stopTimer={stopTimer}
         />
         <PomoTracker currentDayPomos={completedPomos} />
         <MultiTab />
 
-        {/* Debug section - remove in production */}
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "10px",
-            backgroundColor: "#f0f0f0",
-            fontSize: "12px",
-            fontFamily: "monospace",
-            height: "290px",
-            overflow: "auto",
-            border: "1px solid #ccc",
-          }}
-        >
-          <h4>Debug - Current Day Data:</h4>
-          <pre>{JSON.stringify(dayData, null, 2)}</pre>
-
-          <h4>Debug - Full Storage Array:</h4>
-          <pre>{JSON.stringify(fullStorageData, null, 2)}</pre>
-        </div>
+        {/* Debug component - remove in production */}
+        <Debug dayData={dayData} fullStorageData={fullStorageData} />
 
         <footer>version 1.0</footer>
       </div>

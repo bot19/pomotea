@@ -4,13 +4,7 @@ import React, { useState, useEffect } from "react";
  * Timer component for displaying and controlling pomodoro timer
  * Uses simplified props from the new timer hook
  */
-function Timer({
-  timeRemaining,
-  timerRunning,
-  startTimer,
-  pauseTimer,
-  stopTimer,
-}) {
+function Timer({ timeRemaining, timerRunning, startTimer, pauseTimer }) {
   const [minutes, setMinutes] = useState(Math.floor(timeRemaining / 60));
   const [seconds, setSeconds] = useState(timeRemaining % 60);
 

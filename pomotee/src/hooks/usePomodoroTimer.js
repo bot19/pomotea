@@ -61,15 +61,15 @@ export function usePomodoroTimer() {
   const startTimer = useCallback(() => {
     if (timerRunning) return;
 
-    // Check if there's an ongoing session (last entry has null duration)
+    // Check if there's an ongoing session (latest entry has null duration)
     const hasOngoingSession = dayData && 
                              dayData.timeData.length > 0 && 
-                             dayData.timeData[dayData.timeData.length - 1][1] === null;
+                             dayData.timeData[0][1] === null;
 
     if (hasOngoingSession) {
       // Resume existing session - don't create new entry
-      const lastEntry = dayData.timeData[dayData.timeData.length - 1];
-      setCurrentStartTime(lastEntry[0]); // Use the existing start time
+      const latestEntry = dayData.timeData[0];
+      setCurrentStartTime(latestEntry[0]); // Use the existing start time
       setTimerRunning(true);
     } else {
       // Start new session

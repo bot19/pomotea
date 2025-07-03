@@ -93,6 +93,7 @@ export const createDayData = (pomoLength = CONFIG.DEFAULT_POMO_LENGTH * 60) => {
 
 /**
  * Add a new time entry to the current day's data
+ * Latest entry is always at index 0 for easy access
  * @param {string} startTime - ISO timestamp of when timer started
  * @param {number|null} duration - Duration in seconds, null if ongoing
  * @returns {Object} Updated day data
@@ -106,14 +107,16 @@ export const addTimeEntry = (startTime, duration = null) => {
     dayData = createDayData();
   }
   
-  dayData.timeData.push([startTime, duration]);
+  // Add new entry at the beginning (index 0) - latest first
+  dayData.timeData.unshift([startTime, duration]);
   savePomoData(today, dayData);
   
   return dayData;
 };
 
 /**
- * Update the last time entry with duration (when pausing/stopping)
+ * Update the latest time entry with duration (when pausing/stopping)
+ * Latest entry is always at index 0
  * @param {number} duration - Duration in seconds
  * @returns {Object|null} Updated day data or null if no data exists
  */
@@ -126,12 +129,12 @@ export const updateLastTimeEntry = (duration) => {
   
   // getPomoData now guarantees valid structure
   if (dayData && dayData.timeData.length > 0) {
-    const lastIndex = dayData.timeData.length - 1;
-    console.log('updateLastTimeEntry - Last entry before update:', dayData.timeData[lastIndex]);
+    console.log('updateLastTimeEntry - Latest entry before update:', dayData.timeData[0]);
     
-    dayData.timeData[lastIndex][1] = duration;
+    // Latest entry is always at index 0
+    dayData.timeData[0][1] = duration;
     
-    console.log('updateLastTimeEntry - Last entry after update:', dayData.timeData[lastIndex]);
+    console.log('updateLastTimeEntry - Latest entry after update:', dayData.timeData[0]);
     
     savePomoData(today, dayData);
     
