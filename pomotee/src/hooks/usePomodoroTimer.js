@@ -56,6 +56,77 @@ export function usePomodoroTimer() {
   }, []);
 
   /**
+   * Initialize timer state from storage data
+   * Handles both completed sessions and incomplete ongoing sessions
+   * @param {Object} dayData - Day data from storage
+   * @returns {Object} { completedPomos, timeRemaining, hasOngoingSession, currentStartTime }
+   */
+  const initializeFromStorage = useCallback((dayData) => {
+    console.log('initializeFromStorage - Input dayData:', dayData);
+    
+    if (!dayData || !dayData.timeData || dayData.timeData.length === 0) {
+      console.log('initializeFromStorage - No data, using defaults');
+      return {
+        completedPomos: 0,
+        timeRemaining: dayData?.pomoLength || CONFIG.DEFAULT_POMO_LENGTH * 60,
+        hasOngoingSession: false,
+        currentStartTime: null
+      };
+    }
+
+    // Check if there's an ongoing session (latest entry has null duration)
+    const hasOngoingSession = dayData.timeData[0][1] === null;
+    console.log('initializeFromStorage - Has ongoing session:', hasOngoingSession);
+    
+    if (hasOngoingSession) {
+      // There's an ongoing session - calculate current progress
+      const latestEntry = dayData.timeData[0];
+      const startTime = new Date(latestEntry[0]);
+      const now = new Date();
+      const currentElapsed = Math.floor((now - startTime) / 1000);
+      
+      // Calculate total elapsed from all completed sessions
+      const completedElapsed = dayData.timeData.slice(1).reduce((total, [_, duration]) => {
+        return total + (duration || 0);
+      }, 0);
+      
+      const totalElapsed = completedElapsed + currentElapsed;
+      const pomoLength = dayData.pomoLength;
+      
+      // Calculate completed pomodoros and remaining time
+      const completedPomos = Math.floor(totalElapsed / pomoLength);
+      const timeRemaining = Math.max(0, pomoLength - (totalElapsed % pomoLength));
+      
+      console.log('initializeFromStorage - Ongoing session details:', {
+        startTime: latestEntry[0],
+        currentElapsed,
+        completedElapsed,
+        totalElapsed,
+        pomoLength,
+        completedPomos,
+        timeRemaining
+      });
+      
+      return {
+        completedPomos,
+        timeRemaining,
+        hasOngoingSession: true,
+        currentStartTime: latestEntry[0]
+      };
+    } else {
+      // No ongoing session - calculate from completed sessions only
+      const { completedPomos, timeRemaining } = calculateTimerDisplay(dayData.timeData, dayData.pomoLength);
+      console.log('initializeFromStorage - No ongoing session:', { completedPomos, timeRemaining });
+      return {
+        completedPomos,
+        timeRemaining,
+        hasOngoingSession: false,
+        currentStartTime: null
+      };
+    }
+  }, [calculateTimerDisplay]);
+
+  /**
    * Start or resume timer
    */
   const startTimer = useCallback(() => {
@@ -164,12 +235,29 @@ export function usePomodoroTimer() {
 
   // Initialize day data on mount
   useEffect(() => {
+    console.log('usePomodoroTimer - Initializing from storage...');
     const data = getPomoData();
     setDayData(data);
-    const { completedPomos, timeRemaining } = calculateTimerDisplay(data.timeData, data.pomoLength);
+    
+    const { completedPomos, timeRemaining, hasOngoingSession, currentStartTime } = initializeFromStorage(data);
+    
+    console.log('usePomodoroTimer - Initialization result:', {
+      completedPomos,
+      timeRemaining,
+      hasOngoingSession,
+      currentStartTime
+    });
+    
     setCompletedPomos(completedPomos);
     setTimeRemaining(timeRemaining);
-  }, [calculateTimerDisplay]);
+    
+    // If there's an ongoing session, resume it automatically
+    if (hasOngoingSession && currentStartTime) {
+      console.log('usePomodoroTimer - Resuming ongoing session');
+      setCurrentStartTime(currentStartTime);
+      setTimerRunning(true);
+    }
+  }, [initializeFromStorage]);
 
   // Handle auto-start next pomodoro
   useEffect(() => {
