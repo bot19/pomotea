@@ -1,22 +1,23 @@
 import '@testing-library/jest-dom'
+import { vi } from 'vitest'
 
 // Mock localStorage for tests
 const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
+  getItem: vi.fn(),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
 }
 global.localStorage = localStorageMock
 
 // Mock timers for consistent testing
 beforeEach(() => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   localStorageMock.getItem.mockClear()
   localStorageMock.setItem.mockClear()
 })
 
 afterEach(() => {
-  jest.runOnlyPendingTimers()
-  jest.useRealTimers()
+  vi.runOnlyPendingTimers()
+  vi.useRealTimers()
 }) 
