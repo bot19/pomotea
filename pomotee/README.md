@@ -13,6 +13,8 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## thought dump
 
+### previous data model - complex
+
 ```json
 {
   "date": "2025-06-20",
@@ -29,15 +31,19 @@ If you are developing a production application, we recommend using TypeScript wi
 }
 ```
 
+### new data model - essential state only, derive state done in code.
+
 ```json
 {
   "date": "2025-06-20",
-  // [startTime, duration of pomo(s) on pause/stop-next][], keep adding to
+  // [startTime, duration of pomo(s) on pause/stop-next][], latest entry at index 0
   "timeData": [["2025-06-19T13:38:17.997Z", 1300]],
   "pomoLength": 1320, // in seconds = 22 * 60
   "dayPomos": 0 // set when day is past for stats
 }
 ```
+
+**Note:** The `timeData` array uses "latest first" approach - the most recent time entry is always at index 0 for easy access and updates.
 
 Scenarios:
 
