@@ -1,0 +1,1162 @@
+[
+  {
+    "date": "2025-06-06",
+    "current": {
+      "startTime": "2025-06-06T09:34:47.755Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-06T04:33:33.217Z",
+        "completed": true,
+        "progress": 60
+      },
+      {
+        "startTime": "2025-06-06T04:34:37.522Z",
+        "completed": true,
+        "progress": 60
+      },
+      {
+        "startTime": "2025-06-06T04:35:48.680Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-06T04:33:33.217Z",
+        "completed": true,
+        "progress": 60
+      },
+      {
+        "startTime": "2025-06-06T04:34:37.522Z",
+        "completed": true,
+        "progress": 60
+      },
+      {
+        "startTime": "2025-06-06T04:35:48.680Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-06T04:33:33.217Z",
+        "completed": true,
+        "progress": 60
+      },
+      {
+        "startTime": "2025-06-06T04:34:37.522Z",
+        "completed": true,
+        "progress": 60
+      },
+      {
+        "startTime": "2025-06-06T04:35:48.680Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-06T04:33:33.217Z",
+        "completed": true,
+        "progress": 60
+      },
+      {
+        "startTime": "2025-06-06T04:34:37.522Z",
+        "completed": true,
+        "progress": 60
+      },
+      {
+        "startTime": "2025-06-06T04:35:48.680Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-06T04:56:16.276Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-06T06:26:57.458Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-06T06:50:29.688Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-06T09:04:49.214Z",
+        "completed": true,
+        "progress": 1320
+      }
+    ],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-07",
+    "current": {
+      "startTime": "2025-06-07T10:01:48.064Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-07T02:47:23.723Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-07T02:47:23.723Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-07T02:47:23.723Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-07T02:47:23.723Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-07T02:57:34.324Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-07T03:35:55.994Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-07T03:59:52.625Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-07T05:56:45.928Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-07T08:29:41.143Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-07T08:56:56.832Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-07T09:22:05.389Z",
+        "completed": true,
+        "progress": 1320
+      }
+    ],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-09",
+    "current": {
+      "startTime": "2025-06-09T11:53:50.633Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-09T00:09:59.857Z",
+        "completed": true,
+        "progress": 1320
+      },
+      {
+        "startTime": "2025-06-09T00:32:08.638Z",
+        "completed": true,
+        "progress": 342,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-09T01:07:03.889Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-09T01:29:14.497Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-09T04:59:07.922Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-09T07:44:05.297Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-09T08:17:19.983Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-09T08:39:28.560Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-09T09:01:37.192Z",
+        "completed": true,
+        "timeLeft": 0
+      }
+    ],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-10",
+    "current": {
+      "startTime": "2025-06-10T13:39:05.456Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-10T00:09:11.207Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-10T00:17:27.690Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-10T00:39:39.568Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-10T01:01:49.625Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-10T01:23:58.346Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-10T01:46:07.154Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-10T02:11:23.608Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-10T03:09:56.526Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-10T03:32:05.179Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-10T05:28:10.012Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-10T06:02:30.180Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-10T06:27:24.761Z",
+        "completed": true,
+        "timeLeft": 0
+      }
+    ],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-11",
+    "current": {
+      "startTime": "2025-06-11T11:28:39.574Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-10T13:39:05.456Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-11T00:12:55.185Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-11T00:37:54.391Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-11T01:33:21.895Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-11T02:02:32.850Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-11T02:24:41.725Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-11T02:46:50.368Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-11T04:53:55.138Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-11T05:16:03.919Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-11T05:38:12.575Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-11T07:49:42.884Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-11T08:26:32.786Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-11T09:09:29.797Z",
+        "completed": true,
+        "timeLeft": 0
+      }
+    ],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-12",
+    "current": {
+      "startTime": "2025-06-12T13:08:35.664Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-11T11:28:39.574Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T00:55:59.474Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T01:18:08.133Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T02:15:32.301Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T02:37:40.953Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T02:59:49.536Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T03:21:58.165Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T03:44:06.751Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T06:02:03.254Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T06:24:15.877Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T06:54:59.493Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T09:39:05.055Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T10:01:13.926Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T11:55:53.364Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-12T12:32:55.936Z",
+        "completed": true,
+        "timeLeft": 0
+      }
+    ],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-13",
+    "current": {
+      "startTime": "2025-06-13T09:46:12.776Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-12T13:08:35.664Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-13T00:32:22.309Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-13T00:57:12.620Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-13T01:23:00.623Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-13T01:45:09.463Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-13T02:07:18.406Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-13T02:40:27.081Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-13T02:40:27.081Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-13T03:02:35.983Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-13T07:04:03.737Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-13T08:32:13.779Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-13T08:55:39.303Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-13T09:23:54.600Z",
+        "completed": true,
+        "timeLeft": 0
+      }
+    ],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-14",
+    "current": {
+      "startTime": "2025-06-14T03:51:09.100Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-13T09:46:12.776Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-14T01:24:22.966Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-14T02:05:54.580Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-14T03:29:00.237Z",
+        "completed": true,
+        "timeLeft": 0
+      }
+    ],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-16",
+    "current": {
+      "startTime": "2025-06-16T02:09:56.464Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-14T03:51:09.100Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-16T01:14:15.320Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-16T01:36:24.162Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-16T02:09:56.464Z",
+        "completed": true,
+        "timeLeft": 0
+      }
+    ],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-17",
+    "current": {
+      "startTime": "2025-06-17T11:12:03.878Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-17T00:17:06.515Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-17T00:41:30.200Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-17T01:08:50.600Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-17T01:52:04.766Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-17T02:24:54.688Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-17T02:57:27.628Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-17T03:19:36.755Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-17T03:41:45.828Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-17T06:05:37.539Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-17T06:27:46.578Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-17T06:49:55.547Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-17T07:12:04.453Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-17T10:49:54.906Z",
+        "completed": true,
+        "timeLeft": 0
+      }
+    ],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-18",
+    "current": {
+      "startTime": "2025-06-18T06:58:33.847Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-17T11:12:03.878Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-18T00:50:19.911Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-18T01:12:29.088Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-18T01:45:58.414Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-18T02:16:46.167Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-18T02:38:54.983Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-18T03:06:02.289Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-18T03:47:12.912Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-18T05:27:34.367Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-18T05:59:35.262Z",
+        "completed": true,
+        "timeLeft": 0
+      }
+    ],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-19",
+    "current": {
+      "startTime": "2025-06-19T13:38:17.997Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-18T06:58:33.847Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-19T00:45:39.793Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-19T01:07:48.830Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-19T01:38:33.472Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-19T03:07:02.145Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-19T03:29:10.575Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-19T03:55:59.836Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-19T04:19:23.118Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-19T05:55:33.658Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-19T06:23:22.818Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-19T06:45:31.805Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-19T12:12:59.142Z",
+        "completed": true,
+        "timeLeft": 0
+      },
+      {
+        "startTime": "2025-06-19T12:56:52.128Z",
+        "completed": true,
+        "timeLeft": 0
+      }
+    ],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-20",
+    "current": {
+      "startTime": "2025-06-19T13:38:17.997Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 0,
+      "totalPomos": 0
+    },
+    "done": [],
+    "dayPomos": 0
+  },
+  {
+    "date": "2025-06-23",
+    "current": {
+      "startTime": "2025-06-23T01:36:18.979Z",
+      "endTime": "2025-06-23T01:51:28.149Z",
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 904,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-19T13:38:17.997Z",
+        "endTime": "2025-06-23T01:46:13.979Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 302875,
+        "totalPomos": 229
+      }
+    ],
+    "dayPomos": 229
+  },
+  {
+    "date": "2025-06-27",
+    "current": {
+      "startTime": "2025-06-27T05:32:37.169Z",
+      "endTime": "2025-06-27T05:42:03.920Z",
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 560,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-23T01:36:18.979Z",
+        "endTime": "2025-06-27T03:08:19.765Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 10560,
+        "totalPomos": 8
+      },
+      {
+        "startTime": "2025-06-27T03:20:36.269Z",
+        "endTime": "2025-06-27T05:32:37.169Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 8440,
+        "totalPomos": 6
+      }
+    ],
+    "dayPomos": 14
+  },
+  {
+    "date": "2025-06-28",
+    "current": {
+      "startTime": "2025-06-28T13:48:43.523Z",
+      "endTime": null,
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 136,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-27T05:32:37.169Z",
+        "endTime": "2025-06-27T14:20:37.507Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 32485,
+        "totalPomos": 24
+      },
+      {
+        "startTime": "2025-06-27T14:20:37.507Z",
+        "endTime": "2025-06-27T16:32:38.379Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 8061,
+        "totalPomos": 6
+      },
+      {
+        "startTime": "2025-06-27T16:32:38.379Z",
+        "endTime": "2025-06-27T18:00:38.389Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 6413,
+        "totalPomos": 4
+      },
+      {
+        "startTime": "2025-06-27T18:00:38.389Z",
+        "endTime": "2025-06-27T20:12:39.008Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 9175,
+        "totalPomos": 6
+      },
+      {
+        "startTime": "2025-06-27T20:12:39.008Z",
+        "endTime": "2025-06-27T22:02:39.134Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 7504,
+        "totalPomos": 5
+      },
+      {
+        "startTime": "2025-06-27T22:02:39.134Z",
+        "endTime": "2025-06-27T23:52:40.006Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 7477,
+        "totalPomos": 5
+      },
+      {
+        "startTime": "2025-06-27T23:52:40.006Z",
+        "endTime": "2025-06-28T01:20:40.491Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 6317,
+        "totalPomos": 4
+      },
+      {
+        "startTime": "2025-06-28T01:20:40.491Z",
+        "endTime": "2025-06-28T03:10:41.239Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 6911,
+        "totalPomos": 5
+      },
+      {
+        "startTime": "2025-06-28T03:10:41.239Z",
+        "endTime": "2025-06-28T05:00:41.557Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 7343,
+        "totalPomos": 5
+      },
+      {
+        "startTime": "2025-06-28T05:00:41.557Z",
+        "endTime": "2025-06-28T07:12:42.089Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 8082,
+        "totalPomos": 6
+      },
+      {
+        "startTime": "2025-06-28T07:12:42.089Z",
+        "endTime": "2025-06-28T09:02:42.372Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 7334,
+        "totalPomos": 5
+      },
+      {
+        "startTime": "2025-06-28T09:02:42.372Z",
+        "endTime": "2025-06-28T10:52:42.878Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 7335,
+        "totalPomos": 5
+      },
+      {
+        "startTime": "2025-06-28T10:52:42.878Z",
+        "endTime": "2025-06-28T12:42:42.894Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 7588,
+        "totalPomos": 5
+      },
+      {
+        "startTime": "2025-06-28T12:42:42.894Z",
+        "endTime": "2025-06-28T13:48:43.523Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 4096,
+        "totalPomos": 3
+      }
+    ],
+    "dayPomos": 88
+  },
+  {
+    "date": "2025-06-29",
+    "current": {
+      "startTime": "2025-06-29T12:32:50.792Z",
+      "endTime": "2025-06-29T12:49:44.139Z",
+      "pomoLengthMin": 22,
+      "pomoLengthSec": 1320,
+      "pomoProgress": 1011,
+      "totalPomos": 0
+    },
+    "done": [
+      {
+        "startTime": "2025-06-28T13:48:43.523Z",
+        "endTime": "2025-06-28T15:16:44.267Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 5871,
+        "totalPomos": 4
+      },
+      {
+        "startTime": "2025-06-28T15:16:44.267Z",
+        "endTime": "2025-06-28T17:06:44.873Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 7217,
+        "totalPomos": 5
+      },
+      {
+        "startTime": "2025-06-28T17:06:44.873Z",
+        "endTime": "2025-06-28T18:34:45.192Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 5420,
+        "totalPomos": 4
+      },
+      {
+        "startTime": "2025-06-28T18:34:45.192Z",
+        "endTime": "2025-06-28T20:24:45.585Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 7283,
+        "totalPomos": 5
+      },
+      {
+        "startTime": "2025-06-28T20:24:45.585Z",
+        "endTime": "2025-06-28T21:52:46.068Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 6417,
+        "totalPomos": 4
+      },
+      {
+        "startTime": "2025-06-28T21:52:46.068Z",
+        "endTime": "2025-06-29T00:26:46.588Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 9436,
+        "totalPomos": 7
+      },
+      {
+        "startTime": "2025-06-29T00:26:46.588Z",
+        "endTime": "2025-06-29T02:16:47.175Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 7586,
+        "totalPomos": 5
+      },
+      {
+        "startTime": "2025-06-29T02:16:47.175Z",
+        "endTime": "2025-06-29T04:28:47.348Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 8814,
+        "totalPomos": 6
+      },
+      {
+        "startTime": "2025-06-29T04:28:47.348Z",
+        "endTime": "2025-06-29T06:18:47.831Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 7461,
+        "totalPomos": 5
+      },
+      {
+        "startTime": "2025-06-29T06:18:47.831Z",
+        "endTime": "2025-06-29T08:30:48.185Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 8332,
+        "totalPomos": 6
+      },
+      {
+        "startTime": "2025-06-29T08:30:48.185Z",
+        "endTime": "2025-06-29T10:20:48.186Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 6987,
+        "totalPomos": 5
+      },
+      {
+        "startTime": "2025-06-29T10:20:48.186Z",
+        "endTime": "2025-06-29T11:48:48.807Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 6380,
+        "totalPomos": 4
+      },
+      {
+        "startTime": "2025-06-29T11:48:48.807Z",
+        "endTime": "2025-06-29T12:10:49.801Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 1339,
+        "totalPomos": 1
+      },
+      {
+        "startTime": "2025-06-29T12:10:49.801Z",
+        "endTime": "2025-06-29T12:32:50.792Z",
+        "pomoLengthMin": 22,
+        "pomoLengthSec": 1320,
+        "pomoProgress": 1518,
+        "totalPomos": 1
+      }
+    ],
+    "dayPomos": 62
+  },
+  {
+    "date": "2025-06-30",
+    "timeData": [
+      ["2025-06-30T01:00:31.453Z", 2],
+      ["2025-06-30T01:00:36.940Z", 18]
+    ],
+    "pomoLength": 1320,
+    "dayPomos": 0
+  }
+]
